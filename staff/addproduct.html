@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito Sans">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Đây là giao diện Nhân viên!</title>
+</head>
+<style type="text/css">
+	.div-trai{
+		position: fixed;
+		margin: 0px;
+		border: 0px;
+		left: 0px;
+		width: 20%;
+		height: 100%;
+		background-color: skyblue;
+		top: 0px;
+	}
+	.div-phai{
+		position: absolute;
+		right: 20px;
+		height: 100%;
+		width: 80%;
+		right: 0px;
+		top: 0px;
+		font-family: "Nunito Sans", monospace;
+	}
+	.goc-trai{
+		margin: 0px;
+		border: 0px;
+		padding: 1em 1em 2em 1em;
+	}
+	li{
+		padding: 0em 1em 1em ;
+		list-style-type: none;
+		font-size: 1.5em;
+		font-family: monospace;
+		font-weight: bold;
+		margin: 10px 5px 10px 0px;
+		
+
+	}
+	body {
+		height: 1000px;
+	}
+	a{
+		text-decoration: none;
+		color: whitesmoke;
+	}
+	.logout{
+		padding: 2em 0.5em 1em 0em;
+		margin: 0;
+		color: black;
+		font-weight: bold;
+		right: 0px;
+		border: 0;
+		outline: 0;	
+		font-size: 20px;
+	}
+	.div-tren{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		background-color: whitesmoke;
+	}
+	.mini-tab{
+		font-size: 15px;
+		padding-left: 40px;
+	}
+	main{
+		
+		font-size: 20px;
+		padding: 3em 0em 0em 3em;
+		font-weight: bold;
+	}	
+	input, textarea{
+		width: 50%;
+		height: 30px;
+		border: 1px solid;
+		border-color: dimgray;
+		font-size: 19px;
+		font-family: "Nunito Sans",monospace;
+	}
+	button{
+		border: 0;
+		background-color: skyblue;
+		font-size: 18px;
+		border-radius: 20%;
+		font-weight: 500;
+		font-family: "Nunito Sans",monospace;
+		
+	}
+</style>
+<body>
+	<div class="div-trai">
+		<h1 class="goc-trai">
+			Admin Page
+		</h1>
+		<ul>
+			<li >
+				<a href="manageproduct.html">Quản lí sản phẩm</a>
+			</li>
+			<li  class="mini-tab">
+				<a href="addproduct.html" >Đăng sản phẩm</a>
+			</li>
+			<li >
+				<a href="changeorderstatus.html">Thay đổi tình trạng đơn</a>
+			</li>
+		</ul>
+	</div>
+	<div class="div-phai"  >
+		<head>
+			<div class="div-tren">
+				<a href="#" style="left: 0px; display: inline-flex;color:black; font-weight:bold; font-size: 25px; padding-left: 1em; padding-top: 1.5em;">Đăng sản phẩm</a>
+				<a href="signin.html" class="logout">Đăng xuất</a>
+			</div>		
+		</head>
+		<main >
+			<form >
+				<div >
+					Tên mặt hàng:
+					<br>
+					<input type="text" name="">
+				</div>
+				<div>
+					Nhà sản xuất:
+					<br>
+					<input type="text" name="">
+				</div>
+				<div>
+					Số lượng:
+					<br>
+					<input type="number" name=""></div>
+				<div>
+					Giá
+					<br>
+					<input type="number" name="">
+				</div>
+				<div>
+					Mô tả: 
+					<br>
+					<textarea></textarea>
+				</div>
+				
+				<button type="submit" >Đăng</button>
+				<button type="delete">Nhập lại</button>
+			</form>
+		</main>
+	</div>
+
+</body>
+</html>
