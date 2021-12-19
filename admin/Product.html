@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito Sans">
+	<link rel="stylesheet" type="text/css" href="admin.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Đây là giao diện admin!</title>
+</head>
+<style type="text/css">
+	body {
+		height: 1000px;
+	}
+	table{
+		width: 100%;
+		padding: 30px 10px 0px 15px;
+		position: relative;
+		background-color: coral;
+		font-size: 20px;
+		padding: 0;
+		padding-left: 1em;
+	}
+	input{
+		border-radius: 30px;
+		font-family: Nunito Sans;monospace;
+		font-size: 19px;
+	}
+	
+</style>
+<body>
+	<div class="div-trai">
+		<h1 class="goc-trai">
+			Admin Page
+		</h1>
+		<ul>
+			<li>
+				<a href="Dashboard.html">Dashboard</a>
+			</li>
+			<li>
+				<a href="UserManage.html">Quản lí người dùng</a>
+			</li>
+			<li>
+				<a href="staffmanage.html">Quản lí nhân viên</a>
+			</li>
+			<li >
+				<a href="Product.html">Quản lí sản phẩm</a>
+			</li>
+			<li  class="mini-tab">
+				<a href="postproduct.html" >Đăng sản phẩm</a>
+			</li>
+			<li >
+				<a href="ordermanage.html">Quản lí hóa đơn</a>
+			</li>
+			<li class="mini-tab">
+				<a href="processingorder.html">Các đơn hàng chờ duyệt</a>
+			</li>
+			<li class="mini-tab">
+				<a href="deletedorder.html">Các đơn hàng đã hủy</a>
+			</li>
+		</ul>
+	</div>
+	<div class="div-phai"  >
+		<head>
+			<div class="div-tren">
+				<a href=""class="trai-div-tren">
+				Các sản phẩm</a>
+				<a href="signin.html" class="logout">Đăng xuất</a>
+			</div>
+		<main style="padding:1em 0 0 1em">
+			<p style="font-size:19px;padding-left:1em;padding-bottom:0.25em;">Số lượng mặt hàng hiện tại:</p>
+			<form style="font-size:19px;padding-left:1em;padding-bottom:1em;">Tìm kiếm mặt hàng: 
+				<input type="text" name="" placeholder="Nhập tên mặt hàng">
+			</form>
+			<table>
+				<tr>
+					<td>ID</td>
+					<td>Tên sản phẩm</td>
+					<td>Nhà sản xuất</td>
+					<td>Giá</td>
+					<td>Mô tả</td>
+					<td>Kích thước</td>
+					<td>Loại</td>
+				</tr>
+			</table>
+			
+		</main>
+		
+		</head>
+	</div>
+
+</body>
+</html>
