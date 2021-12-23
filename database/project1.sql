@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: localhost
--- Thời gian đã tạo: Th12 20, 2021 lúc 07:03 PM
+-- Máy chủ: localhost:3306
+-- Thời gian đã tạo: Th12 23, 2021 lúc 06:04 PM
 -- Phiên bản máy phục vụ: 5.7.33
 -- Phiên bản PHP: 7.4.19
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `bill` (
   `bill_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
   `user_address` varchar(300) NOT NULL,
   `user_phone` int(10) NOT NULL,
@@ -45,8 +44,9 @@ CREATE TABLE `bill` (
 
 CREATE TABLE `bill_detail` (
   `bill_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE `bill_detail` (
 
 CREATE TABLE `manufacturer` (
   `manufacturer_id` int(11) NOT NULL,
-  `manufacturer_name` varchar(100) NOT NULL
+  `manufacturer_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,13 +68,13 @@ CREATE TABLE `manufacturer` (
 
 CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
-  `product_name` varchar(50) NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `manufacturer_id` int(11) NOT NULL,
+  `product_image` varchar(200) NOT NULL,
   `price` int(11) NOT NULL,
   `description` text NOT NULL,
-  `product_size` varchar(10) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `manufacturer_id` int(11) NOT NULL,
-  `image` int(11) NOT NULL
+  `product_size` varchar(5) NOT NULL,
+  `type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -88,10 +88,10 @@ CREATE TABLE `staff` (
   `staff_name` varchar(50) NOT NULL,
   `staff_email` varchar(50) NOT NULL,
   `staff_phone` int(10) NOT NULL,
-  `staff_birthday` int(11) NOT NULL,
-  `staff_password` varchar(50) NOT NULL,
+  `staff_birthday` date NOT NULL,
+  `staff_password` varchar(20) NOT NULL,
   `staff_address` text NOT NULL,
-  `level` int(1) NOT NULL
+  `level` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,7 +102,7 @@ CREATE TABLE `staff` (
 
 CREATE TABLE `type` (
   `type_id` int(11) NOT NULL,
-  `type_name` varchar(50) NOT NULL
+  `type_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -114,11 +114,11 @@ CREATE TABLE `type` (
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
-  `user_birthday` int(11) NOT NULL,
-  `user_address` text NOT NULL,
-  `user_email` varchar(100) NOT NULL,
-  `user_password` varchar(50) NOT NULL,
-  `user_phone` int(10) NOT NULL
+  `user_phone` int(10) NOT NULL,
+  `user_address` varchar(300) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
+  `user_password` varchar(20) NOT NULL,
+  `user_birthday` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -130,14 +130,14 @@ CREATE TABLE `user` (
 --
 ALTER TABLE `bill`
   ADD PRIMARY KEY (`bill_id`),
-  ADD KEY `product_id` (`product_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
 -- Chỉ mục cho bảng `bill_detail`
 --
 ALTER TABLE `bill_detail`
-  ADD PRIMARY KEY (`bill_id`);
+  ADD KEY `bill_id` (`bill_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Chỉ mục cho bảng `manufacturer`
@@ -172,6 +172,46 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `bill`
+--
+ALTER TABLE `bill`
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `manufacturer`
+--
+ALTER TABLE `manufacturer`
+  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `product`
+--
+ALTER TABLE `product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `type`
+--
+ALTER TABLE `type`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Các ràng buộc cho các bảng đã đổ
 --
 
@@ -179,9 +219,14 @@ ALTER TABLE `user`
 -- Các ràng buộc cho bảng `bill`
 --
 ALTER TABLE `bill`
-  ADD CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `bill_detail` (`bill_id`),
-  ADD CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
-  ADD CONSTRAINT `bill_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Các ràng buộc cho bảng `bill_detail`
+--
+ALTER TABLE `bill_detail`
+  ADD CONSTRAINT `bill_detail_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`bill_id`),
+  ADD CONSTRAINT `bill_detail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 --
 -- Các ràng buộc cho bảng `product`
