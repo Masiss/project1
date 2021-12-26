@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th12 23, 2021 lúc 06:04 PM
+-- Thời gian đã tạo: Th12 26, 2021 lúc 06:12 PM
 -- Phiên bản máy phục vụ: 5.7.33
 -- Phiên bản PHP: 7.4.19
 
@@ -60,6 +60,16 @@ CREATE TABLE `manufacturer` (
   `manufacturer_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `manufacturer`
+--
+
+INSERT INTO `manufacturer` (`manufacturer_id`, `manufacturer_name`) VALUES
+(110, 'dấd'),
+(79, 'dasdasd'),
+(108, 'dsadad'),
+(16, 'náiodnóad');
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +87,14 @@ CREATE TABLE `product` (
   `type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `product`
+--
+
+INSERT INTO `product` (`product_id`, `product_name`, `manufacturer_id`, `product_image`, `price`, `description`, `product_size`, `type_id`) VALUES
+(1, 'dsdadsa', 79, '1640353283.PNG', 4124123, 'dfasfa', 'eewqe', 4),
+(2, 'dsdadsa', 79, '1640353285.PNG', 4124123, 'dfasfa', 'eewqe', 4);
+
 -- --------------------------------------------------------
 
 --
@@ -86,13 +104,21 @@ CREATE TABLE `product` (
 CREATE TABLE `staff` (
   `staff_id` int(11) NOT NULL,
   `staff_name` varchar(50) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `staff_email` varchar(50) NOT NULL,
   `staff_phone` int(10) NOT NULL,
   `staff_birthday` date NOT NULL,
   `staff_password` varchar(20) NOT NULL,
   `staff_address` text NOT NULL,
-  `level` int(11) NOT NULL
+  `level` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `staff`
+--
+
+INSERT INTO `staff` (`staff_id`, `staff_name`, `gender`, `staff_email`, `staff_phone`, `staff_birthday`, `staff_password`, `staff_address`, `level`) VALUES
+(1, 'Bình', 'nam', 'binh12391@hotmail.cocc', 98364832, '2003-11-03', 'codeoa', 'BRVT,TX.PM', 0);
 
 -- --------------------------------------------------------
 
@@ -105,6 +131,43 @@ CREATE TABLE `type` (
   `type_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `type`
+--
+
+INSERT INTO `type` (`type_id`, `type_name`) VALUES
+(1, 'dsadasdas'),
+(2, 'dsadasdas'),
+(3, 'dsadasdas'),
+(4, '3231'),
+(5, '3231'),
+(6, '3231'),
+(7, '3231'),
+(8, '3231'),
+(9, '3231'),
+(10, '3231'),
+(11, '3231'),
+(12, '3231'),
+(13, '3231'),
+(14, '3231'),
+(15, '3231'),
+(16, '3231'),
+(17, '3231'),
+(18, '3231'),
+(19, '3231'),
+(20, '3231'),
+(21, '3231'),
+(22, '3231'),
+(23, '3231'),
+(24, '3231'),
+(25, '3231'),
+(26, ''),
+(27, ''),
+(28, 'dsadwe'),
+(29, 'dsadwe'),
+(30, ''),
+(31, 'dsdads');
+
 -- --------------------------------------------------------
 
 --
@@ -114,12 +177,20 @@ CREATE TABLE `type` (
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `user_phone` int(10) NOT NULL,
   `user_address` varchar(300) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_password` varchar(20) NOT NULL,
   `user_birthday` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_name`, `gender`, `user_phone`, `user_address`, `user_email`, `user_password`, `user_birthday`) VALUES
+(1, 'Bình', '', 98262818, 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 'codeoa', '2003-11-01');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -143,7 +214,8 @@ ALTER TABLE `bill_detail`
 -- Chỉ mục cho bảng `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  ADD PRIMARY KEY (`manufacturer_id`);
+  ADD PRIMARY KEY (`manufacturer_id`),
+  ADD UNIQUE KEY `manufacturer_name` (`manufacturer_name`);
 
 --
 -- Chỉ mục cho bảng `product`
@@ -185,31 +257,31 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT cho bảng `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
