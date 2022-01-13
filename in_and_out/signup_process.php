@@ -33,11 +33,11 @@ $all=mysqli_query($connect,"select * from staff");
 foreach ($all as $each) {
 	if($each['staff_phone']==$staff_phone ){
 		
-		header("Location: signup.php?error=Số điện thoại đã được sử dụng");
+		header("Location: ./signup.php?error=Số điện thoại đã được sử dụng");
 		exit;
 	} else if( $each['staff_email']==$staff_email){
 
-		header("Location: signup.php?error=Email đã được sử dụng");
+		header("Location: ./signup.php?error=Email đã được sử dụng");
 		exit;
 	}
 }
@@ -51,4 +51,4 @@ $sql="insert into staff(staff_name,gender,staff_birthday,staff_email,staff_addre
 				values('$staff_name','$gender','$staff_birthday','$staff_email','$staff_address','$staff_phone','$password','0')";
 mysqli_query($connect,$sql);
 session_destroy();
-header('Location: signin.php');
+header('Location: ../staff/index.php');

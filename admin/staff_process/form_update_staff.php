@@ -1,10 +1,11 @@
+<?php require_once '../../extra/check_admin.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source Sans 3">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Thay đổi sản phẩm</title>
+	<title>Thay đổi thông tin nhân viên</title>
 	<style type="text/css">
 		body{
 			background-color: skyblue;

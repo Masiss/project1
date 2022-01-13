@@ -28,7 +28,7 @@ if(!isset($type_check)){
 $type_id=$type_id->fetch_array()["type_id"];
 //save pic
 //
-$folder='pic_product/';
+$folder='../../admin/pic_product/';
 $file_extension=explode('.', $pic["name"])[1];
 $pic_product=time().'.'.$file_extension;
 $path_file=$folder.$pic_product;

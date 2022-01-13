@@ -1,3 +1,4 @@
+<?php require_once '../extra/check_staff.php' ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,7 @@
 	<div class="div-phai"  >
 		<head>
 			<div class="div-tren">
-				<a href="" class="div-tren-trai" >Dashboard</a>
+				<a href="" class="div-tren-trai" >Trang chủ</a>
 				<a href="../in_and_out/signout.php" class="logout">Đăng xuất</a>
 			</div>	
 		</head>

@@ -4,7 +4,7 @@
 		</h1>
 		<ul>
 			<li >
-				<a href="Dashboard.php">Dashboard</a>
+				<a href="Dashboard.php">Trang chủ</a>
 			</li>
 			<li >
 				<a href="manufacturer_manage.php">Quản lí nhà sản xuất</a>

@@ -1,3 +1,4 @@
+<?php require_once '../../extra/check_staff.php' ?>
 <!DOCTYPE html>
 <html>
 <head>

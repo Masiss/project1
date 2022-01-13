@@ -1,5 +1,6 @@
 <?php 
 include '../extra/connect.php';
+//validate
 if(empty($_POST['email'])){
 	$error="Vui lòng nhập email để được đăng nhập";
 	header("Location: ./signin.php?error=$error");
@@ -27,21 +28,38 @@ else{
 		exit;
 	}
 } 
+//save access
+if(isset($_POST['save_access'])){
+	$save=true;
+} else {
+	$save =false;
+}
+if($save){
+	//$check_token=mysqli_query($connect,"select token from staff where staff_email='$email' and staff_password='$pass'")->fetch_array()['token'];
+	//if(!isset($check_token)) {
+		$token=uniqid('',true).time();
+		$update_token=mysqli_query($connect,"update staff set token='$token' where staff_email='$email' and staff_password='$pass'");
+		setcookie('token',$token,time()+(3600*24*100),"/");
+//	} 
+} else {
+	$token=uniqid('',true).time();
+	$update_token=mysqli_query($connect,"update staff set token='$token' where staff_email='$email' and staff_password='$pass'");
+}
 
-$check_level=mysqli_query($connect,"select level from staff where staff_email='$email' and staff_password='$pass'")->fetch_array()['level'];
 session_start();
 $result=mysqli_query($connect,"select staff_id,staff_name from staff where staff_email='$email' and staff_password='$pass'")->fetch_array();
 $id=$result['staff_id'];
 $name=$result['staff_name'];
 $_SESSION['id']=$id;
 $_SESSION['name']=$name;
+$check_level=mysqli_query($connect,"select level from staff where staff_email='$email' and staff_password='$pass'")->fetch_array()['level'];
 if($check_level==0){
 	header("Location: ../staff/Dashboard.php");
 	exit;
 } else if($check_level==1){
 	header("Location: ../admin/Dashboard.php");
 	exit;
-}
+} else {header("Location: ../admin/index.php");}
 
 
 

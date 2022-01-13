@@ -1,3 +1,4 @@
+<?php require_once '../extra/check_admin.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,12 +47,11 @@
 			<?php
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-
-			$result=mysqli_query($connect,"select count(*) as total_manu from manufacturer where manufacturer_name like '%$search%'");
+			$items=10;
+			$result=mysqli_query($connect,
+				"select count(*) as total_manu from manufacturer where manufacturer_name like '%$search%'");
 			$result=$result->fetch_array()["total_manu"];
 			require_once '../extra/pagi2.php';
-
-			
 			$sql="select * from manufacturer where manufacturer_name like '%$search%' limit $items offset $skip";
 			?>
 			<p >
@@ -61,6 +61,7 @@
 				Tìm kiếm nhà sản xuất:
 				<input type="text" name="search" placeholder="Nhập tên nhà sản xuất" value="<?php echo $search; ?>">
 			</form>
+			<span id="error"></span>
 			<br>
 			<table>
 				<tr style="font-family:Nunito Sans, monospace;">
@@ -75,16 +76,33 @@
 				foreach ($all_manu as $each) {
 					?>
 					<tr>
-						<td><?php echo $each['manufacturer_id'] ?></td>
-						<td><?php echo $each['manufacturer_name'] ?></td>
-						<td><a href="./manufacturer_process/rename_manu.php?id=<?php echo $each['manufacturer_id'] ?>"><button>Sửa</button></a> </td>
-						<td><a href="./manufacturer_process/delete_manu.php?id=<?php echo $each['manufacturer_id'] ?>"><button>Xóa</button></a> </td>					
+						<td>
+							<?php echo $each['manufacturer_id'] ?>
+
+						</td>
+						<td>
+							<?php echo $each['manufacturer_name'] ?>
+
+						</td>
+						<td>
+							<a href="./manufacturer_process/rename_manu.php?id=<?php echo $each['manufacturer_id'] ?>">
+								<button>Sửa</button>
+							</a> 
+						</td>
+						<td>
+							<a href="./manufacturer_process/delete_manu.php?id=<?php echo $each['manufacturer_id'] ?>"  >
+								<button	>
+									Xóa
+								</button>
+							</a>
+						</td>					
 					</tr>
 				<?php } ?>
 			</table>
 			<?php require_once '../extra/pagi3.php' ?>
 		</main>
 	</div>
+
 
 </body>
 </html>
