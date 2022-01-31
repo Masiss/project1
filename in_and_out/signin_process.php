@@ -3,7 +3,7 @@ include '../extra/connect.php';
 //validate
 if(empty($_POST['email'])){
 	$error="Vui lòng nhập email để được đăng nhập";
-	header("Location: ./signin.php?error=$error");
+	header('Location: ' . $_SERVER['HTTP_REFERER']);
 	exit;
 } else {
 	$email=$_POST['email'];
@@ -52,11 +52,14 @@ $id=$result['staff_id'];
 $name=$result['staff_name'];
 $_SESSION['id']=$id;
 $_SESSION['name']=$name;
-$check_level=mysqli_query($connect,"select level from staff where staff_email='$email' and staff_password='$pass'")->fetch_array()['level'];
-if($check_level==0){
+$level=mysqli_query($connect,"select level from staff where staff_email='$email' and staff_password='$pass'")->fetch_array()['level'];
+$_SESSION['level']=$level;
+
+
+if($level==0){
 	header("Location: ../staff/Dashboard.php");
 	exit;
-} else if($check_level==1){
+} else if($level==1){
 	header("Location: ../admin/Dashboard.php");
 	exit;
 } else {header("Location: ../admin/index.php");}

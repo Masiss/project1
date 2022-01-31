@@ -76,7 +76,7 @@
 		<p>
 			Tên sản phẩm:
 			<br>
-			<input id="name_pro" type="text" name="name_pro" value="<?php echo $each['product_name'] ?>" >
+			<input id="name" type="text" name="name_pro" value="<?php echo $each['product_name'] ?>" >
 			<span id="name_error"></span>
 		</p>
 		<p>
@@ -144,7 +144,7 @@
 			</p>
 		</p>
 		<a href="" style="display: flex;justify-content:center;text-decoration: none;">
-			<button type="submit" onclick="return check()">
+			<button type="submit" onclick="return check_product_update()">
 				Thay đổi
 			</button>
 		</a>
@@ -154,59 +154,7 @@
 	</main>
 
 
-	<script type="text/javascript">
-		function check()
-		{
-			let check=true;
-			//check name
-			let name = document.getElementById('name_pro').value;
-			if(name==='')
-			{
-				document.getElementById('name_error').innerHTML='Vui lòng điền tên';
-				check=false;
-			}else {
-					document.getElementById('name_error').innerHTML='';
-				}
-			
-			//check price
-			let price=document.getElementById('price').value;
-			if(price<1000){
-				document.getElementById('price_error').innerHTML='Giá không hợp lệ';
-				check=false;
-			}
-			else {
-				document.getElementById('price_error').innerHTML='';
-
-			}
-			//check description 
-			let description=document.getElementById('description').value;
-			if(description===''){
-				document.getElementById('des_error').innerHTML='Vui lòng nhập mô tả';
-				check = false;
-			}	else {
-				document.getElementById('des_error').innerHTML='';
-
-			}
-			//check size
-			let size=document.getElementById('size').value;
-			if(size===''){
-				document.getElementById('size_error').innerHTML='Vui lòng nhập kích thước';
-				check = false;
-			}	else {
-				document.getElementById('size_error').innerHTML='';
-
-			}
-			
-			return check;
-		}	
-
-
-
-
-
-
-
-	</script>
+	<script type="text/javascript" src="../../extra/check.js"></script>
 
 	</div>
 </body>

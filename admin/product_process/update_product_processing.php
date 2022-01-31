@@ -20,7 +20,10 @@ if($pic_new["size"]>0){
 	$pic_product=time().'.'.$file_extension;
 	$path_file=$folder.$pic_product;
 	move_uploaded_file($pic["tmp_name"], $path_file);
-
+	//delete old pic
+	$pic=mysqli_query($connect,"select product_image from product where product_id='$id'")->fetch_array()['product_image'];
+	$dir='../pic_product/';
+	unlink($dir.$pic);
 } else{
 	$pic_product=$pic_old;
 }

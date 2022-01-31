@@ -52,7 +52,7 @@
 				"select count(*) as total_manu from manufacturer where manufacturer_name like '%$search%'");
 			$result=$result->fetch_array()["total_manu"];
 			require_once '../extra/pagi2.php';
-			$sql="select * from manufacturer where manufacturer_name like '%$search%' limit $items offset $skip";
+			$sql="select * from manufacturer  where manufacturer_name  like '%$search%' ORDER BY manufacturer_id ASC  limit $items offset $skip ";
 			?>
 			<p >
 				Số lượng nhà sản xuất: <?php echo $result ?>
@@ -61,19 +61,20 @@
 				Tìm kiếm nhà sản xuất:
 				<input type="text" name="search" placeholder="Nhập tên nhà sản xuất" value="<?php echo $search; ?>">
 			</form>
-			<span id="error"></span>
+			<div style="color: red;" id="error"></div>
 			<br>
-			<table>
+			<table id="table">
 				<tr style="font-family:Nunito Sans, monospace;">
-					<td>ID nhà sản xuất</td>
-					<td>Tên nhà sản xuất</td>
+					<td >ID nhà sản xuất</td>
+					<td >Tên nhà sản xuất</td>
 					<td></td>
 					<td></td>
 				</tr>
 				<?php 
 
 				$all_manu=mysqli_query($connect,$sql);
-				foreach ($all_manu as $each) {
+
+				foreach ($all_manu as $each){
 					?>
 					<tr>
 						<td>
@@ -85,19 +86,48 @@
 
 						</td>
 						<td>
-							<a href="./manufacturer_process/rename_manu.php?id=<?php echo $each['manufacturer_id'] ?>">
+							<a href="./manufacturer_process/rename_manu.php?id=<?php echo $each['manufacturer_id'] ?>" >
 								<button>Sửa</button>
 							</a> 
 						</td>
 						<td>
-							<a href="./manufacturer_process/delete_manu.php?id=<?php echo $each['manufacturer_id'] ?>"  >
-								<button	>
+							<a   >
+								<button class="btn-delete"	data-id=" <?php echo $each['manufacturer_id']  ?>">
 									Xóa
 								</button>
 							</a>
 						</td>					
 					</tr>
-				<?php } ?>
+					<?php } ?>
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$(".btn-delete").click(function(event) {
+								let btn=$(this);
+								let id=btn.data("id");
+								$.ajax({
+									url: './manufacturer_process/delete_manu.php',
+									type: 'POST',
+									dataType: 'html',
+									data: {id},
+								})
+								.done(function(check) {
+									
+									if(check==="1")
+									{
+										$("#error").hide();
+										btn.parents('tr').remove();
+										
+									}
+									else{
+										$("#error").show().text(check);
+									}
+								})
+							});
+						});
+					</script>
+					
+
 			</table>
 			<?php require_once '../extra/pagi3.php' ?>
 		</main>

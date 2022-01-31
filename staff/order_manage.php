@@ -76,12 +76,15 @@
 				$sql="select * from bill ";
 				$all_bill=mysqli_query($connect,$sql);
 				foreach ($all_bill as $each) {
+					//get user name
 					$user0=$each['user_id'];
 					$user1="select user_name from user where user_id='$user0'";
 					$user=mysqli_query($connect,$user1)->fetch_array()['user_name'];
+					//get bill details
 					$bill0=$each['bill_id'];
 					$bill1="select product_id,quantity,status from bill_detail where bill_id='$bill0'";
 					$bill_detail=mysqli_query($connect,$bill1)->fetch_array();
+					//get product name
 					$product0=$bill_detail['product_id'];
 					$product1="select product_name from product where product_id='$product0'";
 					$product=mysqli_query($connect,$product1)->fetch_array()['product_name'];

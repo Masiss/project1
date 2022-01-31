@@ -36,24 +36,20 @@
 		<head>
 			<div class="div-tren">
 				
-				<a href="" class="trai-div-tren" >Các đơn hàng đã xóa:</a>
+				<a href="" class="trai-div-tren" >Các đơn hàng đã hủy:</a>
 				<a href="../in_and_out/signout.php" class="logout">Đăng xuất</a>
 			</div>	
 		</head>
 		<main>
 			<?php 
 			include '../extra/connect.php';
-			if(isset($_GET['page'])){
-				$page=$_GET['page'];
-			}else $page=1;
-			$count_bill=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đã hủy'")->fetch_array()['total_bill'];
-			$order_per_page=1;
-			$total_page=ceil($count_bill/$order_per_page);
-			$skip= $order_per_page*($page-1);
+			include '../extra/pagi1.php';
+			$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đã hủy'")->fetch_array()['total_bill'];
+			include '../extra/pagi2.php';
 
 
 			?>
-			<p style="font-size: 19px;">Số lượng đơn hàng đã xóa: <?php echo $count_bill; ?> </p>
+			<p style="font-size: 19px;">Số lượng đơn hàng đã xóa: <?php echo $result; ?> </p>
 			<table>
 				<tr>
 					<td>Mã đơn</td>
@@ -65,7 +61,7 @@
 					<td>Ghi chú</td>
 				</tr>
 				<?php 
-				$bill_detail=mysqli_query($connect,"select * from bill_detail where status='đã hủy' limit $order_per_page offset $skip");
+				$bill_detail=mysqli_query($connect,"select * from bill_detail where status='đã hủy' limit $items offset $skip");
 				foreach ($bill_detail as $each) {
 					$id=$each['bill_id'];
 					$bill=mysqli_query($connect,"select * from bill where bill_id='$id'")->fetch_array();
@@ -94,13 +90,7 @@
 					</tr>
 				<?php } ?>
 			</table>
-			<div style="margin-top:1em">
-				<?php for($i=1;$i<=$total_page;$i++){ ?>
-					<a class="page" href="?page=<?php echo $i ?>">
-						<?php  echo $i; ?>	
-					</a>			
-				<?php	} ?>
-			</div>	
+			<?php include '../extra/pagi3.php' ?>
 		</main>
 	</div>
 

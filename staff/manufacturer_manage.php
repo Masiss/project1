@@ -10,21 +10,15 @@
 </head>
 <style type="text/css">
 	
-	body {
-		height: 1000px;
-	}
 	
 	table{
+		
 		width: 100%;
-		border-collapse: collapse;
-		font-size: 18px;
-		font-weight: bold;
-		font-family: "Nunito Sans", monospace;
+		position: relative;
+		background-color: rgba(0, 0, 0, 0.05);
+		font-size: 20px;
 	}
-	td{
-		border: 1px solid darkgrey;
-	}
-	input{
+		input{
 		font-size: 17px;
 		font-family: "Nunito Sans", monospace;
 		margin: 1em;
@@ -46,12 +40,12 @@
 				<a href="../in_and_out/signout.php" class="logout">Đăng xuất</a>
 			</div>		
 		</head>
-		<main style="padding:1em;height:100%;font-size: 20px;font-family: Nunito Sans, monospace;">
+		<main style="padding:1em;height:auto;font-size: 20px;font-family: Nunito Sans, monospace;">
 			<?php 
 			
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-
+			$items=10;
 
 			$result=mysqli_query($connect,"select count(*) as total_manu from manufacturer where manufacturer_name like '%$search%'")->fetch_array()["total_manu"];
 			require_once '../extra/pagi2.php';

@@ -11,18 +11,25 @@
 <style type="text/css">
 	table{
 		width: 100%;
-		border-collapse: collapse;
-		font-size: 18px;
-		font-weight: bold;
-		font-family: "Nunito Sans", monospace;
+		padding: 30px 10px 0px 15px;
+		position: relative;
+		background-color: rgba(0, 0, 0,0.05);
+		font-size: 20px;
+		padding: 0;
+		padding-left: 1em;
 	}
-	td{
-		border: 1px solid darkgrey;
-	}
+	
 	input{
 		font-size: 17px;
 		font-family: "Nunito Sans", monospace;
 		margin: 1em;
+	}
+	button{
+		border: 0;
+		background-color: skyblue;
+	} 
+	body{
+		height: 870px;
 	}
 	
 </style>

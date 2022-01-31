@@ -1,8 +1,14 @@
-<?php 
-$name=$_POST['name'];
-include '../../extra/connect.php';
+<?php
+if(empty($_POST['name'])){
+	echo "Nhập tên nhà sản xuất đê alooooooo";
+	exit();
+} else {
+	$name=$_POST['name'];
+	include '../../extra/connect.php';
 
 
-$sql="insert into manufacturer(manufacturer_name) values ('$manu_name')";
-mysqli_query($connect,$sql);
-header("Location: /project1/staff/manufacturer_manage.php");
+	$sql="insert into manufacturer(manufacturer_name) values('$name')";
+
+	mysqli_query($connect,$sql);
+	echo "1";
+}

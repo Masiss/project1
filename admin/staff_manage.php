@@ -54,7 +54,7 @@
 			<?php 
 			include '../extra/connect.php';
 			include '../extra/pagi1.php';
-			$result=mysqli_query($connect,"select count(*) as total_staff from staff where level='0'")->fetch_array()['total_staff'];
+			$result=mysqli_query($connect,"select count(*) as total_staff from staff where level='0' and staff_name like '%$search%'")->fetch_array()['total_staff'];
 			include '../extra/pagi2.php';
 
 			
@@ -66,7 +66,7 @@
 			</p>
 			<form >
 				Tìm kiếm nhân viên:
-				<input type="text" name="search" placeholder="Nhập tên nhân viên">
+				<input type="text" name="search" placeholder="Nhập tên nhân viên" value="<?php echo $search ?>">
 			</form>
 			<table>
 				<tr style="font-family:Nunito Sans, monospace;">
@@ -98,13 +98,7 @@
 				</tr>
 				<?php } ?>
 			</table>
-					<div style="margin-top:1em">
-			<?php for($i=1;$i<=$total_page;$i++){ ?>
-				<a class="page" href="?page=<?php echo $i ?>">
-					<?php  echo $i; ?>	
-				</a>			
-			<?php	} ?>
-		</div>	
+					<?php include '../extra/pagi3.php' ?>
 		</main>
 	</div>
 

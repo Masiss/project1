@@ -19,6 +19,7 @@
 			padding: 5em;
 			justify-content: center;
 			padding-top: 2em;
+
 		}
 		header{
 			font-family: "Source Sans 3",monospace;
@@ -30,8 +31,8 @@
 			font-family: "Source Sans 3",monospace;
 			font-size: 20px;
 			font-weight: 500;
-			 color: slategray;
-			 text-align: center;
+			color: slategray;
+			text-align: center;
 		}
 		input{
 			font-family: 
@@ -49,8 +50,13 @@
 			border: 1px solid;
 			border-radius: 10px;
 			font-family:"Source Sans 3";
-			position: relative;
-			left: 35%;	
+			margin-left: 37%;
+			
+		}
+		span{
+			color: red;
+			font-size: 20px;
+
 		}
 	</style>
 </head>
@@ -64,24 +70,27 @@
 		$getname=mysqli_query($connect,"select manufacturer_name from manufacturer where manufacturer_id='$id'")
 		->fetch_array()["manufacturer_name"];
 		?>
-	<form action="manu_processing1.php?id=<?php echo $id ?>" method="post">
-		
-		<main>
-			<input type="hidden" name="id" value="<?php echo $id ?>">
-		<p>
-			Tên nhà sản xuất
-			<br>
-			<input type="text" name="manu_name" value="<?php echo $getname ?>">
-		</p>
-		
-	</main>
-		<a href="">
-			<button type="submit" >
-					Thay đổi
+		<form action="manu_processing1.php?id=<?php echo $id ?>"  method="post">
+
+			<main>
+				<input type="hidden" name="id" value="<?php echo $id ?>">
+				<p>
+					Tên nhà sản xuất
+					<br>
+					<input id="name" type="text" name="manu_name" value="<?php echo $getname ?>">
+				</p>
+
+			</main>
+
+			<button  type="submit" onclick="return check()" >
+				Thay đổi
 			</button>
-		</a>
-	</form>
-	
+			<br>
+			<br>
+			<span id="error"></span>
+<script type="text/javascript" src="../../extra/check.js"></script>
+		</form>
+
 	</div>
 </body>
 </html>

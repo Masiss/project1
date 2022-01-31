@@ -1,4 +1,6 @@
-<?php require_once '../../extra/check_admin.php'; ?>
+<?php require_once '../../extra/check_admin.php'; 
+include '../../extra/connect.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,33 +52,61 @@
 			border-radius: 10px;
 			font-family:"Source Sans 3";
 			
-		}
+		} 
+		
 	</style>
 </head>
 <body>
 	<div>
-		<?php 
-		if(isset($_GET['id'])){
-			$id=$_GET['id'];
-		}
-
-		 ?>
+		
 		<header>
 			Thêm nhà sản xuất
 		</header>
 		<main>
-		<form method="post" action="../manufacturer_process/manu_processing.php?<?php if(isset($id)){
-				echo 'id='.$id;} ?>">
+		<form method="post" >
 			<p>
 			Nhà sản xuất
 			<br>
-			<input type="text" name="manu_name" >
+			<input id="name" type="text" name="manu_name" >
 		</p>
-		<a href="" style="display: flex;justify-content:center;text-decoration: none;"><button>Thêm</button></a>
-		
+		<a href="" style="display: flex;justify-content:center;text-decoration: none;"><button id="btn-submit" onclick="return check()">Thêm</button></a>
+		<span id="error"></span>
 		</form>
 		
 	</main>
+	<script src="../../extra/check.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#btn-submit").click(function(event) {
+					event.preventDefault();
+					let btn=$(this);
+					let manu_name=$("#name").val();
+					
+					$.ajax({
+						url: '../manufacturer_process/manu_processing.php',
+						type: 'POST',
+						
+						data: {manu_name},
+					})
+					.done(function(sth) {
+						if(sth!=="1"){
+							$("#error").text(sth);
+						} else {
+							history.go(-1);
+						}
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+					
+				});
+			});
+		</script>
 	
 	</div>
 </body>

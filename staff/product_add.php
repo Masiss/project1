@@ -10,7 +10,7 @@
 </head>
 <style type="text/css">
 	body {
-		height: 1000px;
+		height: 700px;
 	}
 	main{
 		
@@ -35,10 +35,7 @@
 		font-family: "Nunito Sans",monospace;
 		
 	}
-	form {
-		margin-left: 4em;
-		margin-top: 3em;
-	}
+	
 	span{	
 		color: red;
 	}
@@ -52,7 +49,10 @@
 				<a href="../in_and_out/signout.php" class="logout">Đăng xuất</a>
 			</div>		
 		</head>
-		<form method="post" action="product-processing.php"  enctype="multipart/form-data">
+		<main>
+			<span id="error"></span>
+			<span id="announce" style="color:green"></span>
+		<form method="post" action="./product_process/product-processing.php"  enctype="multipart/form-data">
 				<div >Tên mặt hàng:
 					<br>
 					<input type="text" name="name_pro" id="name">
@@ -116,72 +116,39 @@
 				</div>
 				
 				<input style="width:5%; border:0;border-radius:20%;background-color:skyblue;" type="reset" name="" value="Reset">
-				<a href=""><button type="submit" onclick="return check()" >Đăng</button></a>
+				<a href=""><button id="btn-submit" type="submit" onclick="return check_product()" >Đăng</button></a>
 			</form>
 		</main>
 	</div>
-	<script type="text/javascript">
-		function check()
-		{
-			let check=true;
-			//check name
-			let name = document.getElementById('name').value;
-			if(name==='')
-			{
-				document.getElementById('name_error').innerHTML='Vui lòng điền tên';
-				check=false;
-			}else {
-					document.getElementById('name_error').innerHTML='';
-				}
-			//check image
-			let image=document.getElementById('image').value;
-			if(image===''){
-				document.getElementById('image_error').innerHTML='Vui lòng thêm ảnh';
-				check = false;
-			}	else {
-				document.getElementById('image_error').innerHTML='';
-
-			}
+	<script type="text/javascript" src="../extra/check.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("form").submit(function(event) {
+					event.preventDefault();
+					var formData = new FormData(this);
+					// Attach file
+					formData.append('image', $('input[type=file]')[0].files[0]); 
+					$.ajax({
+						url: './product_process/product-processing.php',
+						data: formData,
+   						type: "POST", //ADDED THIS LINE
+					    // THIS MUST BE DONE FOR FILE UPLOADING
+					    contentType: false,
+					    processData: false,
+					    
+					})
+					.done(function(check){
+						if(check !=="1"){
+							
+							$("#alert").text(check);
+						} else {$("#announce").text("Đăng sản phẩm thành công");}
 			
-			//check price
-			let price=document.getElementById('price').value;
-			if(price<1000){
-				document.getElementById('price_error').innerHTML='Giá không hợp lệ';
-				check=false;
-			}
-			else {
-				document.getElementById('price_error').innerHTML='';
 
-			}
-			//check description 
-			let description=document.getElementById('description').value;
-			if(description===''){
-				document.getElementById('des_error').innerHTML='Vui lòng nhập mô tả';
-				check = false;
-			}	else {
-				document.getElementById('des_error').innerHTML='';
-
-			}
-			//check size
-			let size=document.getElementById('size').value;
-			if(size===''){
-				document.getElementById('size_error').innerHTML='Vui lòng nhập kích thước';
-				check = false;
-			}	else {
-				document.getElementById('size_error').innerHTML='';
-
-			}
-			
-			return check;
-		}	
-
-
-
-
-
-
-
-	</script>
+							})
+				});
+			})
+		</script>
 
 </body>
 </html>

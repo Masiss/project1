@@ -115,7 +115,7 @@ if(isset($_SESSION['level'])){
 
 
 				<a href="" style="display: flex;justify-content:center;text-decoration: none;">
-					<button type="submit"  >Đăng nhập</button>
+					<button type="submit" onclick="return check_signin()" >Đăng nhập</button>
 				</a>
 				<br>
 
@@ -125,6 +125,32 @@ if(isset($_SESSION['level'])){
 			
 
 		</main>
+		<script type="text/javascript">
+			function check_signin()
+			{
+				let check=true;
+				let email=document.getElementById('email').value;
+				let regex_mail=/[a-zA-Z0-9]@[a-z].[a-z]/;
+				if(email===""){
+					document.getElementById("mail_error").innerHTML="Nhập mẹ email đi duma, vào chức này rồi còn éo có ý thức à???";
+					check=false;
+				} else if(!regex_mail.test(email)) {
+					document.getElementById("mail_error").innerHTML="Nhập đàng hoàng vào duma";
+					check=false;
+				}
+				let password=document.getElementById("password").value;
+				if(password===""){
+					document.getElementById("password_error").innerHTML="Nhập mật khẩu đi duma, làm thì làm đàng hoàng không thì nghỉ việc mẹ đi :))))))))))))";
+					check=false;
+				}
+				return check;
+
+
+			}
+
+
+
+		</script>
 
 	</div>
 </body>

@@ -51,141 +51,113 @@
 			</div>		
 		</head>
 		<main >
-			<form method="post" action="./product_process/product-processing.php"  enctype="multipart/form-data">
+			<span id="alert"></span>
+			<span id="announce" style="color:green"></span>
+			<form method="post"  enctype="multipart/form-data">
 				<div >Tên mặt hàng:
 					<br>
-					<input type="text" name="name_pro" id="name">
+					<input  type="text" name="name_pro" id="name">
 					<span id="name_error"></span>
 				</div>
 				<div >Ảnh sản phẩm:
 					<br>
-					<input type="file" name="image" style="border:0;" id="image">
+					<input  type="file" name="image" style="border:0;" id="image">
 					<span id="image_error"></span>
 				</div>
 				
 				<div  >Giá
 					<br>
-					<input type="number" name="price" id="price">
+					<input  type="number" name="price" id="price">
 					<span id="price_error"></span>
 				</div>
 				<div >Mô tả: 
 					<br>
-					<textarea name="description" id="description"></textarea>
+					<textarea  name="description" id="description"></textarea>
 					<span id="des_error"></span>
 				</div>
 				<div >Kích thước: 
 					<br>
-					<input type="text" name="size" id="size">
+					<input  type="text" name="size" id="size">
 					<span id="size_error"></span>
 				</div>
 				<div>
-				<p>
-					Loại sản phẩm:
-					<br>
-					<select name='type_id' style="width: 50%; height:30px;">
-						<?php 
-						include 'connect.php';
-						$all_type=mysqli_query($connect,"select * from type");
-						foreach($all_type as $type){
-							?>
-							<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" >
-								<?php echo $type['type_name']; ?></option>
-							<?php } ?>
-						</select>
-						<p style="margin: 0;border:0;font-size: 13px;">
-							*Nếu không có, nhấn vào <a style="color:red;" href="./product_process/add_type.php">thêm</a> 
-						</p>
-					</p>
-				</div>
-				<div >
 					<p>
-						Nhà sản xuất
+						Loại sản phẩm:
 						<br>
-						<select name='manufacturer_id' style="width: 50%; height:30px;">
-							<?php
-							$all_manu=mysqli_query($connect,"select * from manufacturer"); 
-							foreach ($all_manu as $manu) {
+						<select id="type" name="type_id"  style="width: 50%; height:30px;">
+							<?php 
+							include '../extra/connect.php';
+							$all_type=mysqli_query($connect,"select * from type");
+							foreach($all_type as $type){
 								?>
-
-								<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>">
-
-									<?php echo $manu['manufacturer_name']; ?>
-								</option>
-							<?php } ?>
-						</select>
-						<p style="margin: 0;border:0;font-size: 13px;">
-							*Nếu không có, nhấn vào <a style="color:red;" href="./product_process/add_manu.php">thêm</a> 
+								<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" >
+									<?php echo $type['type_name']; ?></option>
+								<?php } ?>
+							</select>
+							<p style="margin: 0;border:0;font-size: 13px;">
+								*Nếu không có, nhấn vào <a style="color:red;" href="./product_process/add_type.php">thêm</a> 
+							</p>
 						</p>
-					</p>
-				</div>
+					</div>
+					<div >
+						<p>
+							Nhà sản xuất
+							<br>
+							<select id="manufacturer" name='manufacturer_id' style="width: 50%; height:30px;">
+								<?php
+								$all_manu=mysqli_query($connect,"select * from manufacturer"); 
+								foreach ($all_manu as $manu) {
+									?>
 
-				<a href="" ><button type="delete">Nhập lại</button></a>
-				<a href="" ><button type="submit" onclick="return check()" >Đăng</button></a>
-			</form>
-		</main>
-	</div>
-	<script type="text/javascript">
-		function check()
-		{
-			let check=true;
-			//check name
-			let name = document.getElementById('name').value;
-			if(name==='')
-			{
-				document.getElementById('name_error').innerHTML='Vui lòng điền tên';
-				check=false;
-			}else {
-				document.getElementById('name_error').innerHTML='';
-			}
-			//check image
-			let image=document.getElementById('image').value;
-			if(image===''){
-				document.getElementById('image_error').innerHTML='Vui lòng thêm ảnh';
-				check = false;
-			}	else {
-				document.getElementById('image_error').innerHTML='';
+									<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>">
 
-			}
-			
-			//check price
-			let price=document.getElementById('price').value;
-			if(price<1000){
-				document.getElementById('price_error').innerHTML='Giá không hợp lệ';
-				check=false;
-			}
-			else {
-				document.getElementById('price_error').innerHTML='';
+										<?php echo $manu['manufacturer_name']; ?>
+									</option>
+								<?php } ?>
+							</select>
+							<p style="margin: 0;border:0;font-size: 13px;">
+								*Nếu không có, nhấn vào <a style="color:red;" href="./product_process/add_manu.php">thêm</a> 
+							</p>
+						</p>
+					</div>
 
-			}
-			//check description 
-			let description=document.getElementById('description').value;
-			if(description===''){
-				document.getElementById('des_error').innerHTML='Vui lòng nhập mô tả';
-				check = false;
-			}	else {
-				document.getElementById('des_error').innerHTML='';
-
-			}
-			//check size
-			let size=document.getElementById('size').value;
-			if(size===''){
-				document.getElementById('size_error').innerHTML='Vui lòng nhập kích thước';
-				check = false;
-			}	else {
-				document.getElementById('size_error').innerHTML='';
-
-			}
-			
-			return check;
-		}	
+					<a href="" ><button type="reset">Nhập lại</button></a>
+					<a href="" ><button id="btn-submit" type="submit" onclick="return check_product()" >Đăng</button></a>
+				</form>
+			</main>
+		</div>
+		<script type="text/javascript" src="../extra/check.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("form").submit(function(event) {
+					event.preventDefault();
+					var formData = new FormData(this);
+					// Attach file
+					formData.append('image', $('input[type=file]')[0].files[0]); 
+					$.ajax({
+						url: './product_process/product-processing.php',
+						data: formData,
+   						type: "POST", //ADDED THIS LINE
+					    // THIS MUST BE DONE FOR FILE UPLOADING
+					    contentType: false,
+					    processData: false,
+					    
+					})
+					.done(function(check){
+						if(check !=="1"){
+							
+							$("#alert").text(check);
+						} else {$("#announce").text("Đăng sản phẩm thành công");}
 
 
+					})
+					.error(function(){
+						console.log("error");
+					})
+				});
+			})
+		</script>
 
-
-
-
-
-	</script>
-
-</body>
-</html>
+	</body>
+	</html>

@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Đây là giao diện admin!</title>
 </head>
+
 <style type="text/css">
 	body {
 		height: 500px;
@@ -48,15 +49,53 @@
 			</div>		
 		</head>
 		<main >
-			<form method="post" action="./manufacturer_process/manu_processing.php">
+			<form method="post" >
+				
 				<div >Tên nhà sản xuất:
 					<br>
-				<input type="text" name="manu_name"></div>
+					<input id="name" type="text" name="manu_name">
+				</div>
 				<button type="reset">Nhập lại</button>
-				<button type="submit" >Đăng</button>
+				<button id="btn-submit"  onclick="return check()" type="submit" >Đăng</button>
 			</form>
+			<span style="color:red" id="error"></span>
+			<span style="color:green" id="announce"></span>
 		</main>
 	</div>
+	<script type="text/javascript" src="../extra/check.js"></script>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			let name=$("#name").val();
+			$("#btn-submit").click(function(event) {
+				event.preventDefault();
+
+				let manu_name=$('#name').val();
+				
+				$.ajax({
+							url: './manufacturer_process/manu_processing.php',
+							type: 'POST',
+							data: {manu_name},
+						})
+						.done(function(check) {
+							if(check!=="1"){
+								console.log(1);
+								$("#announce").hide();
+								$("#error").show().text(check);
+
+							} else {
+								console.log(0);
+								$("#error").hide();
+								$("#announce").show().text("Thêm nhà sản xuất thành công");
+							}
+						})
+						
+								
+			});
+		});
+	</script>
+	
+	
 </body>
 </html>

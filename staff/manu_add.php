@@ -52,28 +52,50 @@
 				<div >
 					Tên nhà sản xuất:
 					<br>
-					<input id="name" type="text" name="">
-					<span id="name_error"></span>
+					<input id="name" type="text" name="name">
+					
 				</div>			
-				<button type="submit" onclick="return check()">Đăng</button>
+				
 				<button type="reset">Nhập lại</button>
+				<button id="btn-submit" type="submit" onclick="return check()">Thêm</button>
 			</form>
+			<span id="error"></span>
+			<span style="color:green" id="announce"></span>
+
 		</main>
 	</div>
+	<script type="text/javascript" src="../extra/check.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
 	<script type="text/javascript">
-			function check(){
-				let check=true;
-				let name=document.getElementById('name').value;
-				if(name==''){
-					document.getElementById('name_error').innerHTML='Vui lòng nhập tên nhà sản xuất';
-					check=false;
-				} 
-				return check;
-			}
+		$(document).ready(function() {
+			let name=$("#name").val();
+			$("#btn-submit").click(function(event) {
+				event.preventDefault();
 
+				let name=$('#name').val();
+				
+				$.ajax({
+							url: './manufacturer_process/add_manu.php',
+							type: 'POST',
+							data: {name},
+						})
+						.done(function(check) {
+							if(check!=="1"){
+								console.log(1);
+								$("#announce").hide();
+								$("#error").show().text(check);
 
-
+							} else {
+								console.log(0);
+								$("#error").hide();
+								$("#announce").show().text("Thêm nhà sản xuất thành công");
+							}
+						})
+						
+								
+			});
+		});
 	</script>
-
+	
 </body>
 </html>

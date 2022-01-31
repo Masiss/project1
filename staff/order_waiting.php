@@ -17,21 +17,20 @@
 		font-size: 19px;
 	}
 	table{
-		position: relative;
-		border: 1px solid darkgrey;
-		border-collapse: collapse;
+		
 		width: 100%;
-		font-weight: bold;
-		font-family: Nunito Sans, monospace;
+		position: relative;
+		background-color: rgba(0, 0, 0, 0.05);
+		font-size: 20px;
 	}
-	td{
-		border: 1px solid;
-	}
-	.page{
-		color: darkturquoise;
-		border: 1px solid;
-		margin: 3px;
-		padding: 1px;
+	
+	
+	
+	button{
+		border: none;
+		background-color: skyblue;
+		width: auto;
+		height: auto;
 	}
 	
 </style>
@@ -49,11 +48,14 @@
 			<?php 
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-				$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đang đợi'")->fetch_array()['total_bill'];
+			$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đang đợi'")->fetch_array()['total_bill'];
 			require_once '../extra/pagi2.php';;
 			?>
 
-			<p style="font-family: Nunito Sans, monospace;font-weight: 700;">Số hóa đơn chờ duyệt: <?php echo $result ?> </p>
+			<p style="font-family: Nunito Sans, monospace;font-weight: 700;">
+				Số hóa đơn chờ duyệt:
+				<span id="total"> <?php echo $result ?> </span>
+			</p>
 			<table>
 				<tr>
 					<td>Mã đơn</td>
@@ -77,23 +79,54 @@
 					
 
 
-				 ?>
-				<tr>
-					<td><?php echo $bill['bill_id'] ?></td>
-					<td><?php echo $product ?></td>
-					<td><?php echo $each['quantity'] ?></td>
-					<td><?php echo $user_name ?></td>
-					<td><?php echo $bill['user_address'] ?></td>
-					<td><?php echo $bill['user_phone'] ?></td>
-					<td><?php echo $bill['note'] ?></td>
-					<td><a href="./bill_process/approve.php?id=<?php echo $bill['bill_id'] ?>" style="color: darkred;">Duyệt</a></td>
-					<td><a href="./bill_process/cancel.php?id=<?php echo $bill['bill_id'] ?>"  style="color: darkred;">Hủy</a></td>
-				</tr>
-			<?php } ?>
+					?>
+					<tr>
+						<td><?php echo $bill['bill_id'] ?></td>
+						<td><?php echo $product ?></td>
+						<td><?php echo $each['quantity'] ?></td>
+						<td><?php echo $user_name ?></td>
+						<td><?php echo $bill['user_address'] ?></td>
+						<td><?php echo $bill['user_phone'] ?></td>
+						<td><?php echo $bill['note'] ?></td>
+						<td><button class="change" data-id="<?php echo $bill['bill_id'] ?>" data-type="Duyệt" >Duyệt</button></td>
+						<td><button class="change" data-id="<?php echo $bill['bill_id'] ?>" data-type="Hủy"  >Hủy</button></td>
+					</tr>
+				<?php } ?>
 			</table>
 			<?php require_once '../extra/pagi3.php'; ?>
 		</main>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".change").click(function(event) {
+				let a=$(this);
+				let get_type=a.data('type');
+				let id=a.data('id');
+				let url;
+				let total=$("#total").html();
+				total--;
+				switch(get_type){
+					case ("Duyệt"): url="./bill_process/approve.php";
+					break;
+					case("Hủy"): url="./bill_process/cancel.php";
+					break;
+				}
+				$.ajax({
+					url: url,
+					data: {id},
+				})
+				.done(function(check) {
+					if(check=="1"){					
+						a.parents('tr').remove();
+						$("#total").text(total);
 
+					}
+				})
+				
+				
+			});
+		});
+	</script>
 </body>
 </html>

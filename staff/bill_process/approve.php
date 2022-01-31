@@ -7,4 +7,4 @@ status='đã duyệt'
 where bill_id='$id'";
 
 mysqli_query($connect,$sql);
-header("Location: /project1/staff/order_manage.php");
+echo "1";
