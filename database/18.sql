@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th1 08, 2022 lúc 12:09 PM
+-- Thời gian đã tạo: Th2 12, 2022 lúc 01:51 PM
 -- Phiên bản máy phục vụ: 5.7.33
 -- Phiên bản PHP: 7.4.19
 
@@ -41,8 +41,8 @@ CREATE TABLE `bill` (
 --
 
 INSERT INTO `bill` (`bill_id`, `user_id`, `user_name`, `user_address`, `user_phone`, `note`) VALUES
-(1, 1, 'Bình', 'BRVT,TX.PM', 321321312, 'gsgsdhshsfhf'),
-(2, 1, 'Binh', 'PM', 123654789, 'codeoamahoi');
+(5, 1, 'Bình', 'BRVT,TX.PM', 98262818, 'dasdasdsad'),
+(6, 2, 'dsad', 'dioasds', 837382821, 'coo deo a');
 
 -- --------------------------------------------------------
 
@@ -54,6 +54,8 @@ CREATE TABLE `bill_detail` (
   `bill_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `create_at` datetime NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -61,9 +63,9 @@ CREATE TABLE `bill_detail` (
 -- Đang đổ dữ liệu cho bảng `bill_detail`
 --
 
-INSERT INTO `bill_detail` (`bill_id`, `product_id`, `quantity`, `status`) VALUES
-(1, 5, 5, 'đã duyệt'),
-(2, 7, 10, 'đã duyệt');
+INSERT INTO `bill_detail` (`bill_id`, `product_id`, `quantity`, `total`, `create_at`, `status`) VALUES
+(5, 5, 4, 129252492, '2022-02-03 18:31:16', 'đã hủy'),
+(6, 30, 6, 19278, '2022-01-31 18:31:53', 'đã hủy');
 
 -- --------------------------------------------------------
 
@@ -81,26 +83,12 @@ CREATE TABLE `manufacturer` (
 --
 
 INSERT INTO `manufacturer` (`manufacturer_id`, `manufacturer_name`) VALUES
-(140, '321'),
-(149, 'Chó'),
-(148, 'Có chó nó làm'),
-(139, 'Co deo ma hoi'),
-(112, 'ddd'),
-(121, 'dqwdqw'),
-(125, 'dqwwqeqw'),
-(108, 'dsadad'),
-(124, 'dwqeqw'),
-(145, 'e1e312'),
-(146, 'eqeqeqe'),
-(126, 'eqweqe'),
-(143, 'ewqeqwe'),
-(147, 'Masiss'),
-(16, 'náiodnóad'),
-(119, 'Nguyễn Hữu Bình'),
-(129, 'qeqwee'),
-(136, 'qqqq'),
-(123, 'weqweq'),
-(111, 'đấ');
+(231, 'By Vilain'),
+(230, 'Hanz de Fuko'),
+(227, 'Lockhart'),
+(229, 'Morgan'),
+(232, 'Tony'),
+(228, 'Valiant');
 
 -- --------------------------------------------------------
 
@@ -124,8 +112,13 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `manufacturer_id`, `product_image`, `price`, `description`, `product_size`, `type_id`) VALUES
-(5, '321213', 148, '1641643500.PNG', 3333, 'nf lay di dcm\r\n', 'SSSR2', 65),
-(7, 'Có đéo á', 140, '1640670134.PNG', 321321312, 'dsfgă', '123ád', 55);
+(5, 'Lockhart UWB Goon Grease', 227, '1644086849.jpg', 32313123, 'Dung tích: 104g<br /><br /><br /><br />\r\nSản xuất: thủ công tại Mỹ<br /><br /><br /><br />\r\nThương hiệu: LOCKHART\'S AUTHENTIC', '4oz', 98),
+(7, 'Lockhart Goon Grease', 227, '1644086882.jpg', 1333333, 'dsfgă', '4oz', 98),
+(30, 'Valiant Matte Paste', 228, '1644087180.jfif', 3213, 'ofasdmopas', '4oz', 100),
+(37, 'Morgan Oudh and Amber', 229, '1644261211.jpg', 312321, 'daoids', '4oz', 98),
+(38, 'Hanz de Fuko Modify Pomade', 230, '1644261306.jpg', 312312, '32313', '2oz', 100),
+(39, 'By Vilain Sidekick', 231, '1644261404.jpg', 323123, '312312', '3', 101),
+(40, 'Lược Tony', 232, '1644436651.jpg', 30000, 'Lược xịn vcl', 'none', 102);
 
 -- --------------------------------------------------------
 
@@ -142,18 +135,20 @@ CREATE TABLE `staff` (
   `staff_birthday` date NOT NULL,
   `staff_password` varchar(20) NOT NULL,
   `staff_address` text NOT NULL,
-  `level` int(1) NOT NULL
+  `level` int(1) NOT NULL,
+  `token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `staff`
 --
 
-INSERT INTO `staff` (`staff_id`, `staff_name`, `gender`, `staff_email`, `staff_phone`, `staff_birthday`, `staff_password`, `staff_address`, `level`) VALUES
-(2, 'Po', 'np2s', 'cocaiqq@hotmail.cc', 987865211, '2012-03-01', 'cocaiqqamanhin', 'Owr dau hoi cai deo gi', 0),
-(3, 'Pu', 'np2s', 'dkasm@dnoasd.moasmd', 373927482, '0033-03-03', 'dmasdmapsd', 'mdpaosmdpamd', 0),
-(5, 'Binhf', 'Male', 'rw@fasd.ndiosamd', 937382271, '2113-02-01', 'dwqeqeqew', 'dsadadwqe', 0),
-(6, 'Pi', 'Female', 'mspodas@fsmdp.dmopasmd', 987865233, '2134-11-19', '123456789', 'fmáodmpá', 0);
+INSERT INTO `staff` (`staff_id`, `staff_name`, `gender`, `staff_email`, `staff_phone`, `staff_birthday`, `staff_password`, `staff_address`, `level`, `token`) VALUES
+(2, 'Po', 'Male', 'cocaiqq@hotmail.cc', 987865211, '2012-03-01', 'cocaiqqamanhin', 'Owr dau hoi cai deo gi', 0, '61db3a54ad05c4.225961181641757268'),
+(6, 'Pi', 'np2s', 'mspodas@fsmdp.dmopasmd', 987865233, '2134-11-19', '123456789', 'fmáodmpá', 0, NULL),
+(7, 'Amdó', 'male', 'admin@hot.poi', 937281783, '3013-01-01', '123', 'dksmpđoa', 1, '6206ac444ce229.782868341644604484'),
+(8, 'Peq', 'Female', 'fopa@dmsdop.dosad', 918312382, '1333-01-01', '3123133', 'dsdasdad', 0, NULL),
+(9, 'Pqe', 'Female', 'mdopsa@dspaod.dasopd', 938371273, '0331-01-01', '1234567', 'fosakdpoasd', 0, '61fec49bbf7605.600023271644086427');
 
 -- --------------------------------------------------------
 
@@ -171,71 +166,10 @@ CREATE TABLE `type` (
 --
 
 INSERT INTO `type` (`type_id`, `type_name`) VALUES
-(1, 'dsadasdas'),
-(2, 'dsadasdas'),
-(3, 'dsadasdas'),
-(4, '3231'),
-(5, '3231'),
-(6, '3231'),
-(7, '3231'),
-(8, '3231'),
-(9, '3231'),
-(10, '3231'),
-(11, '3231'),
-(12, '3231'),
-(13, '3231'),
-(14, '3231'),
-(15, '3231'),
-(16, '3231'),
-(17, '3231'),
-(18, '3231'),
-(19, '3231'),
-(20, '3231'),
-(21, '3231'),
-(22, '3231'),
-(23, '3231'),
-(24, '3231'),
-(25, '3231'),
-(26, ''),
-(27, ''),
-(28, 'dsadwe'),
-(29, 'dsadwe'),
-(30, ''),
-(31, 'dsdads'),
-(32, ''),
-(33, ''),
-(34, ''),
-(35, ''),
-(36, ''),
-(37, ''),
-(38, ''),
-(39, ''),
-(40, 'dasd'),
-(41, 'dasd'),
-(42, ''),
-(43, ''),
-(44, ''),
-(45, '12311232'),
-(46, '12311232'),
-(47, '12311232'),
-(48, 'dqeqwe'),
-(49, 'dqeqwe'),
-(50, 'fqweqwe'),
-(51, 'wqqwr'),
-(52, 'dasdsad'),
-(53, 'dsadasdas'),
-(54, '111111'),
-(55, '231312'),
-(56, 'faosmfpasf'),
-(57, ''),
-(58, ''),
-(59, '321'),
-(60, 'rqweqeq'),
-(61, '2323132'),
-(62, 'ffasdsad'),
-(63, 'ffasdsad'),
-(64, 'wqeewqe'),
-(65, '123');
+(98, 'Pomade'),
+(100, 'Wax'),
+(101, 'Pre-styler'),
+(102, 'Phụ kiện');
 
 -- --------------------------------------------------------
 
@@ -251,15 +185,17 @@ CREATE TABLE `user` (
   `user_address` varchar(300) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_password` varchar(20) NOT NULL,
-  `user_birthday` date NOT NULL
+  `user_birthday` date NOT NULL,
+  `token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `gender`, `user_phone`, `user_address`, `user_email`, `user_password`, `user_birthday`) VALUES
-(1, 'Bình', 'nam', 98262818, 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 'codeoa', '2003-11-01');
+INSERT INTO `user` (`user_id`, `user_name`, `gender`, `user_phone`, `user_address`, `user_email`, `user_password`, `user_birthday`, `token`) VALUES
+(1, 'Bình', 'nam', 98262818, 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 'codeoa', '2003-11-01', '6206ca201ada07.923132111644612128'),
+(2, 'dsad', 'Male', 837382821, 'dioasds', 'dnasd@dsad.cmas', '4103832', '2015-01-01', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -320,37 +256,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
