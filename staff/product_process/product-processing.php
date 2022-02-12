@@ -7,7 +7,7 @@ $name_pro=$_POST['name_pro'];
 $manu_id=$_POST['manufacturer_id'];
 $pic=$_FILES['image'];
 $price=$_POST['price'];
-$description=$_POST['description'];
+$description=nl2br(addslashes($_POST['description']));
 $size=$_POST['size'];
 $type_id=$_POST['type_id'];
 include '../../extra/connect.php';

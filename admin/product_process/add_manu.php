@@ -36,7 +36,7 @@ include '../../extra/connect.php';
 			 text-align: center;
 		}
 		input{
-			font-family: 
+			
 			font-size: 20px;
 			background-color: #f2f2f2;
 			border: 0;

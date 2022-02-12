@@ -67,10 +67,12 @@
 					<td>Mã đơn</td>
 					<td>Tên mặt hàng</td>
 					<td>Số lượng</td>
+					<td>Giá trị</td>
 					<td>Tên người đặt</td>
 					<td>Địa chỉ</td>
 					<td>Số điện thoại</td>
 					<td>Ghi chú</td>
+					<td>Thời gian tạo đơn</td>
 					<td>Tình trạng</td>
 				</tr>
 				<?php 
@@ -83,8 +85,10 @@
 					$user=mysqli_query($connect,$user1)->fetch_array()['user_name'];
 				//get bill_details
 					$bill0=$each['bill_id'];
-					$bill1="select product_id,quantity,status from bill_detail where bill_id='$bill0'";
+					$bill1="select * from bill_detail where bill_id='$bill0'";
+					
 					$bill_detail=mysqli_query($connect,$bill1)->fetch_array();
+					
 				//get product_name
 					$product0=$bill_detail['product_id'];
 					$product1="select product_name from product where product_id='$product0'";
@@ -95,10 +99,12 @@
 						<td><?php echo $each['bill_id']; ?></td>
 						<td><?php echo $product; ?></td>
 						<td><?php echo $bill_detail['quantity'] ;?></td>
+						<td><?php echo $bill_detail['total'] ;?></td>
 						<td><?php echo $user; ?></td>
 						<td><?php echo $each['user_address']; ?></td>
 						<td><?php echo '0'. $each['user_phone']; ?></td>
 						<td><?php echo $each['note']; ?></td>
+						<td><?php echo $bill_detail['create_at']; ?></td>
 						<td id="<?php echo $each['bill_id'] ?>"><?php echo $bill_detail['status']; ?></td>
 						<?php if($bill_detail['status']=='đang đợi') { ?>
 							<td>
@@ -136,13 +142,14 @@
 					let btn=$(this);
 					let url;
 					let a=btn.data('type');
+					let id=btn.data('id');
 					switch(a){
 						case ("Duyệt"): url="./bill_process/bill_approve.php";
 						break;
 						case ("Hủy"): url="./bill_process/bill_cancel.php";
 						break;
 					}
-					let id=btn.data('id');
+					
 					
 									$.ajax({
 										url: url,

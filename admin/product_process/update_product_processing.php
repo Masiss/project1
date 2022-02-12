@@ -7,11 +7,10 @@ $price=$_POST['price'];
 $product_size=$_POST['product_size'];
 $type=$_POST['type_id'];
 $manu_id=$_POST['manufacturer_id'];
-$description=$_POST['description'];
+$description=nl2br(addslashes($_POST['description']));
 $pic_old=$_POST['old_image'];
 $pic_new=$_FILES['new_image'];
 include '../../extra/connect.php';
-
 //check pic
 if($pic_new["size"]>0){
 	$pic=$pic_new;

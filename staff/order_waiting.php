@@ -61,14 +61,16 @@
 					<td>Mã đơn</td>
 					<td>Tên mặt hàng</td>
 					<td>Số lượng</td>
+					<td>Giá trị</td>
 					<td>Người mua</td>
 					<td>Địa chỉ</td>
 					<td>Số điện thoại</td>
+					<td>Thời gian</td>
 					<td>Ghi chú</td>
 				</tr>
 				<?php 
-				$bill=mysqli_query($connect,"select * from bill_detail where status='đang đợi' limit $items offset $skip");
-				foreach ($bill as $each) {
+				$bill_detail=mysqli_query($connect,"select * from bill_detail where status='đang đợi' limit $items offset $skip");
+				foreach ($bill_detail as $each) {
 					$id=$each['bill_id'];
 					$bill=mysqli_query($connect,"select * from bill where bill_id='$id'")->fetch_array();
 					$id_product=$each['product_id'];
@@ -84,9 +86,11 @@
 						<td><?php echo $bill['bill_id'] ?></td>
 						<td><?php echo $product ?></td>
 						<td><?php echo $each['quantity'] ?></td>
+						<td><?php echo $each['total'] ?></td>
 						<td><?php echo $user_name ?></td>
 						<td><?php echo $bill['user_address'] ?></td>
 						<td><?php echo $bill['user_phone'] ?></td>
+						<td><?php echo $each['create_at'] ?></td>
 						<td><?php echo $bill['note'] ?></td>
 						<td><button class="change" data-id="<?php echo $bill['bill_id'] ?>" data-type="Duyệt" >Duyệt</button></td>
 						<td><button class="change" data-id="<?php echo $bill['bill_id'] ?>" data-type="Hủy"  >Hủy</button></td>
