@@ -1,0 +1,160 @@
+*{
+	margin: 0;
+	font-family: Nunito Sans;
+}
+p{
+	display: block;
+	justify-content: flex-end;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #e5dfdf;
+	font-size: 1.5em;
+
+}
+b{
+	width: 25%;
+	border: 2px solid #edecea;
+	height: 1px;
+	color: grey;
+
+
+}
+figure{
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	align-content: center;
+
+}
+main{
+	font-size: 20px;
+	justify-content: center;
+	align-items: center;
+	display: block;
+	font-family: Rowdies;
+	padding-bottom: 50px;
+}
+.header_top{
+	display: flex;
+}
+
+
+
+form input{
+	display: inline-block;
+	position: relative;
+	width: 60%;
+	height: 2.25em;
+	font-size: 20px;
+	
+
+}
+.btn-search{
+	border: none;
+	background-color: white;
+}
+.btn-search ion-icon{
+	transform: translate(0px,10px);
+}
+.top_right{
+	width: 10%;
+	
+	margin: auto;
+
+}
+.top_right a{
+	padding: 10px;
+	box-sizing: border-box;
+	border: 1px solid;
+	border-radius: 25px;
+	text-decoration: none;
+	color: green;
+}
+.search_bar{
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	display: flex;
+	width: 70%;
+	flex-direction: column;
+}
+.search_bar form{
+	width: 80%;
+	margin-left: 30px;
+	margin: auto;
+}
+
+.search_bar form input{
+	width: 90%;
+}
+
+.top_line{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 15px;
+	height: 30px;
+	background-color: green;
+	margin:0
+
+}
+.logo{
+	font-size: 40px;
+	padding: 30px;
+	margin-left: 100px;
+	width: 10%;
+	color: black;
+
+}
+.navbar{
+	position: relative;
+	max-width: 1000px;
+	margin: 20px auto;
+	box-sizing: border-box;
+	border-radius: 4px;
+	box-shadow: 0 2px 5px rgba(0,0,0,.2);
+
+}
+.navbar ul{
+	display: flex;
+}
+.navbar ul li{
+	display: block;
+	padding: 3px;
+	font-size: 19px;
+	margin: 10px auto;
+	box-sizing: border-box;
+	border-radius: 3px;
+	text-decoration: none;
+}
+.navbar ul li a{
+	color: red;
+	text-decoration: none;
+	margin: 10px;
+	padding: 10px 20px;
+}
+.navbar ul li a:hover,
+.navbar ul li a.active{
+	background: #bfd2db;
+	color: red;
+	transition: 0.5s;
+}
+
+
+
+footer{
+	justify-content: center;
+	height:100px;
+	background-color: green;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+footer div p a{
+	text-decoration: none;
+	color: white;
+}
+footer div p{
+	color: white;
+}
