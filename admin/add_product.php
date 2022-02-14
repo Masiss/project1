@@ -75,10 +75,15 @@
 					<textarea  name="description" id="description"></textarea>
 					<span id="des_error"></span>
 				</div>
-				<div >Kích thước: 
+				<div >Kích thước:
+				<span style="color:gray;position: absolute;left: 20%;bottom: 41%;font-size:13px">
+						*Nếu sản phẩm có nhiều kích thước thì cách nhau bằng dấu phẩy(,)
+					</span> 
 					<br>
 					<input  type="text" name="size" id="size">
+
 					<span id="size_error"></span>
+					
 				</div>
 				<div>
 					<p>

@@ -78,7 +78,7 @@
 
 			}
 			$sql="select sum(total) as 'week_revenue'from bill_detail where date(create_at) between '$date_for_data' and '$today'";
-			$week_revenue=mysqli_query($connect,$sql)->fetch_array()['week_revenue'];
+			$week_revenue=mysqli_query($connect,$sql);
 				
 			if(empty($week_revenue)){
 				$week_revenue=0;

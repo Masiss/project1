@@ -78,7 +78,6 @@
 						<td>Ảnh sản phẩm</td>
 						<td>Nhà sản xuất</td>
 						<td>Giá</td>
-						<td>Mô tả</td>
 						<td>Kích thước</td>
 						<td>Loại</td>
 					</tr>
@@ -105,9 +104,13 @@
 							<td><img src="./pic_product/<?php echo $each['product_image'] ?>" style="height: 100px;width:100px;"></td>
 							<td><?php echo $each['manufacturer_id'] ?></td>
 							<td><?php echo $each['price'] ?></td>
-							<td><?php echo $each['description'] ?></td>
 							<td><?php echo $each['product_size'] ?></td>
 							<td><?php echo $each['type_id'] ?></td>
+							<td>
+								<a target="_blank" href="../user/view_product.php?id=<?php echo $each['product_id'] ?>">
+									<button>Chi tiết</button>
+								</a>
+							</td>
 							<td>
 								<a href="./product_process/update_product.php?id=<?php echo $each['product_id']  ?>"><button>
 									Sửa
@@ -116,9 +119,9 @@
 						</td>
 						<td>
 							
-								<button class="btn-delete" data-id="<?php echo $each['product_id'] ?>">
-									Xóa
-								</button>
+							<button class="btn-delete" data-id="<?php echo $each['product_id'] ?>">
+								Xóa
+							</button>
 						</td>					
 					</tr>
 				<?php } ?>
@@ -134,27 +137,27 @@
 		$(".btn-delete").click(function(event) {
 			let btn=$(this);
 			let id=$(this).data("id");
-				$.ajax({
-					url: './product_process/delete_product.php',
-					type: 'POST',
-					data: {id},
-				})
-				.done(function(output) {
-					if(output!=="1"){
-						$(".announce").hide();
-						
-						$(".error").show().text(output);
-					}
-					else {
-						$(".error").hide();
-						btn.parents('tr').remove();
-						$(".announce").show().text("Xóa thành công");
-					}
-				})
-				
-				
+			$.ajax({
+				url: './product_process/delete_product.php',
+				type: 'POST',
+				data: {id},
+			})
+			.done(function(output) {
+				if(output!=="1"){
+					$(".announce").hide();
 
-			});
+					$(".error").show().text(output);
+				}
+				else {
+					$(".error").hide();
+					btn.parents('tr').remove();
+					$(".announce").show().text("Xóa thành công");
+				}
+			})
+
+
+
+		});
 	});
 </script>
 

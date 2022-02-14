@@ -3,18 +3,18 @@
 if(empty($_POST['name_pro']) || empty($_POST['size']) || empty($_FILES['image']) || empty($_POST['price']) || empty($_POST['description'])) {
 	echo "Nhập thiếu kìa, nhập đầy đủ vào dumamay :))))))))))";
 	exit;
-} else if(strlen($_POST['size'])>10){
+} else if(strlen($_POST['size'])>20){
 	echo "Size lừa à dumamay";
 	exit;
 }
 
-$name_pro=$_POST['name_pro'];
-$manufacturer_id=$_POST['manufacturer_id'];
+$name_pro=addslashes($_POST['name_pro']);
+$manufacturer_id=addslashes($_POST['manufacturer_id']);
 $pic=$_FILES['image'];
-$price=$_POST['price'];
+$price=addslashes($_POST['price']);
 $description=nl2br(addslashes($_POST['description']));
-$size=$_POST['size'];
-$type_id=$_POST['type_id'];
+$size=addslashes($_POST['size']);
+$type_id=addslashes($_POST['type_id']);
 include '../../extra/connect.php';
 //save pic
 //

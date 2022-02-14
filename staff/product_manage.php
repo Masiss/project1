@@ -45,7 +45,7 @@
 		
 		<main style="padding:1em 0em 0em 1em;height: 100%;">
 
-		<?php
+			<?php
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
 
@@ -55,12 +55,12 @@
 			require_once '../extra/pagi2.php';
 
 			$sql="select * from product where product_name like '%$search%' limit $items offset $skip";
-					$all_product=mysqli_query($connect,$sql);
+			$all_product=mysqli_query($connect,$sql);
 			?>
 
 			<p style="font-size: 20px;font-family: Nunito Sans, monospace;">Số lượng đơn hàng: <?php echo $result ?></p>
 			<form style="font-size:20px;font-family: Nunito Sans, monospace;">Tìm kiếm đơn hàng
-			<input type="text" name="search" placeholder="Nhập tên sản phẩm" value="<?php echo $search ?>">
+				<input type="text" name="search" placeholder="Nhập tên sản phẩm" value="<?php echo $search ?>">
 			</form>
 			<table>
 				<tr>
@@ -69,37 +69,40 @@
 					<td>Ảnh sản phẩm</td>
 					<td>Nhà sản xuất</td>
 					<td>Giá</td>
-					<td>Mô tả</td>
 					<td>Kích thước</td>
 					<td>Loại</td>
 				</tr>
 				<?php 
-					
-					
-					foreach ($all_product as $each) {
-						$id_manu=$each['manufacturer_id'];
-						$name_manu=mysqli_query($connect,"select manufacturer_name
-						 from manufacturer where manufacturer_id='$id_manu'");
-						$name_manu=$name_manu->fetch_array()['manufacturer_name'];
-						$each['manufacturer_id']=$name_manu;
-						$id_type=$each['type_id'];
-						$type=mysqli_query($connect,"select type_name
-						 from type where type_id='$id_type'");
-						$type=$type->fetch_array()['type_name'];
-						$each['type_id']=$type;
-					 ?>
-				<tr>
-					
-					 <td><?php echo $each['product_id'] ?></td>
-					 <td><?php echo $each['product_name'] ?></td>
-					 <td><img src="../admin/pic_product/<?php echo $each['product_image'] ?>" style="height: 100px;width:100px;"></td>
-					 <td><?php echo $each['manufacturer_id'] ?></td>
-					 <td><?php echo $each['price'] ?></td>
-					 <td><?php echo $each['description'] ?></td>
-					 <td><?php echo $each['product_size'] ?></td>
-					 <td><?php echo $each['type_id'] ?></td>
-					<td><a href="./product_process/form_update.php?id=<?php echo $each['product_id']  ?>"><button>Sửa</button></a> </td>				
-				</tr>
+
+
+				foreach ($all_product as $each) {
+					$id_manu=$each['manufacturer_id'];
+					$name_manu=mysqli_query($connect,"select manufacturer_name
+						from manufacturer where manufacturer_id='$id_manu'");
+					$name_manu=$name_manu->fetch_array()['manufacturer_name'];
+					$each['manufacturer_id']=$name_manu;
+					$id_type=$each['type_id'];
+					$type=mysqli_query($connect,"select type_name
+						from type where type_id='$id_type'");
+					$type=$type->fetch_array()['type_name'];
+					$each['type_id']=$type;
+					?>
+					<tr>
+
+						<td><?php echo $each['product_id'] ?></td>
+						<td><?php echo $each['product_name'] ?></td>
+						<td><img src="../admin/pic_product/<?php echo $each['product_image'] ?>" style="height: 100px;width:100px;"></td>
+						<td><?php echo $each['manufacturer_id'] ?></td>
+						<td><?php echo $each['price'] ?></td>
+						<td><?php echo $each['product_size'] ?></td>
+						<td><?php echo $each['type_id'] ?></td>
+						<td>
+							<a target="_blank" href="../user/view_product.php?id=<?php echo $each['product_id'] ?>">
+								<button>Chi tiết</button>
+							</a>
+						</td>
+						<td><a href="./product_process/form_update.php?id=<?php echo $each['product_id']  ?>"><button>Sửa</button></a> </td>				
+					</tr>
 				<?php } ?>
 				
 			</table>

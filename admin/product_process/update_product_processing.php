@@ -1,12 +1,23 @@
 <?php 
-
 $id=$_POST['id_product'];
+if(empty($_POST['name_pro']) || empty($_POST['product_size']) || empty($_POST['price']) || empty($_POST['description'])) {
+	$error= "Vui lòng nhập đầy đủ thông tin";
+	
+	header("Location: ./update_product.php?id=$id&error=$error");
+	exit;
+} else if(strlen($_POST['product_size'])>20){
+	$error="Size lừa à alooo";
+	header("Location: ./update_product.php?id=$id&error=$error");
+	exit;
+}
 
-$name=$_POST['name_pro'];
-$price=$_POST['price'];
-$product_size=$_POST['product_size'];
-$type=$_POST['type_id'];
-$manu_id=$_POST['manufacturer_id'];
+$id=addslashes($_POST['id_product']);
+
+$name=addslashes($_POST['name_pro']);
+$price=addslashes($_POST['price']);
+$product_size=addslashes($_POST['product_size']);
+$type=addslashes($_POST['type_id']);
+$manu_id=addslashes($_POST['manufacturer_id']);
 $description=nl2br(addslashes($_POST['description']));
 $pic_old=$_POST['old_image'];
 $pic_new=$_FILES['new_image'];

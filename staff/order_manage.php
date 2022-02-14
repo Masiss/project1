@@ -38,6 +38,12 @@
 		margin: 3px;
 		padding: 1px;
 	}
+	button{
+		border: none;
+		background-color: skyblue;
+		color: white;
+		font-weight: 700;
+	}
 	
 </style>
 <body>
@@ -65,7 +71,6 @@
 				<tr>
 					<td>Mã đơn</td>
 					<td>Tên mặt hàng</td>
-					<td>Số lượng</td>
 					<td>Giá trị</td>
 					<td>Tên người đặt</td>
 					<td>Địa chỉ</td>
@@ -75,45 +80,53 @@
 					<td>Tình trạng</td>
 				</tr>
 				<?php 
-				$sql="select * from bill ";
+				$sql="SELECT bill_detail.*,bill.*,user.* from bill_detail
+				JOIN bill on bill_detail.bill_id=bill.bill_id 
+				JOIN user on bill.user_id=user.user_id
+				order by bill_detail.create_at desc limit $items offset $skip";
+
 				$all_bill=mysqli_query($connect,$sql);
 				foreach ($all_bill as $each) {
-					//get user name
-					$user0=$each['user_id'];
-					$user1="select * from user where user_id='$user0'";
-					$user=mysqli_query($connect,$user1)->fetch_array()['user_name'];
-					//get bill details
-					$bill0=$each['bill_id'];
-					$bill1="select * from bill_detail where bill_id='$bill0'";
-					$bill_detail=mysqli_query($connect,$bill1)->fetch_array();
-					//get product name
-					$product0=$bill_detail['product_id'];
-					$product1="select * from product where product_id='$product0'";
-					$product=mysqli_query($connect,$product1)->fetch_array()['product_name'];
+					$product_details=json_decode($each['product_details'],true);
+
 					?>
 					<tr>
 
 						<td><?php echo $each['bill_id']; ?></td>
-						<td><?php echo $product; ?></td>
-						<td><?php echo $bill_detail['quantity'] ;?></td>
-						<td><?php echo $bill_detail['total'] ;?></td>
-						<td><?php echo $user; ?></td>
-						<td><?php echo $each['user_address']; ?></td>
-						<td><?php echo '0'. $each['user_phone']; ?></td>
-						<td><?php echo $each['note']; ?></td>
-						<td><?php echo $bill_detail['create_at']; ?></td>
-						<td><?php echo $bill_detail['status']; ?></td>
+						<td><?php foreach ($product_details as $key => $value) { 
+							$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
+							
+							?>
+
+							<?php echo $product_name.'.'; ?>
+							
+							<?php echo "size".' '.$value['size'] ?>
+							<br>
+
+						<?php } ?>
+					</td>
+					<td><?php echo $each['total'] ;?></td>
+					<td><?php echo $each['user_name']; ?></td>
+					<td><?php echo $each['user_address']; ?></td>
+					<td><?php echo '0'. $each['user_phone']; ?></td>
+					<td><?php echo $each['note']; ?></td>
+					<td><?php echo $each['create_at']; ?></td>
+					<td><?php echo $each['status']; ?></td>
+					<td style="width:7%">
+						<a target="_blank"  href="./view_bill.php?id=<?php echo $each['bill_id'] ?>">
+							<button >Chi tiết</button>
+						</a>
+					</td>
 
 
+				</tr>
+			<?php } ?>
 
-					</tr>
-				<?php } ?>
-
-				
-			</table>
-			<?php require_once '../extra/pagi3.php'; ?>
-		</main>
-	</div>
+			
+		</table>
+		<?php require_once '../extra/pagi3.php'; ?>
+	</main>
+</div>
 
 </body>
 </html>

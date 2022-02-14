@@ -3,12 +3,12 @@ if(empty($_POST['name_pro']) || empty($_FILES['image']) || empty($_POST['price']
 	echo "Vui lòng nhập đầy đủ";
 	exit();
 } else {
-$name_pro=$_POST['name_pro'];
+$name_pro=addslashes($_POST['name_pro']);
 $manu_id=$_POST['manufacturer_id'];
 $pic=$_FILES['image'];
-$price=$_POST['price'];
+$price=addslashes($_POST['price']);
 $description=nl2br(addslashes($_POST['description']));
-$size=$_POST['size'];
+$size=addslashes($_POST['size']);
 $type_id=$_POST['type_id'];
 include '../../extra/connect.php';
 

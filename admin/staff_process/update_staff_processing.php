@@ -20,4 +20,4 @@ staff_email='$staff_email',
 level='$level'
 where staff_id='$staff_id'";
 mysqli_query($connect,$sql);
-header("Location: /project1/admin/staff_manage.php");
+header("Location: ../staff_manage.php");

@@ -83,6 +83,9 @@ if(isset($_SESSION['level'])){
 		.signup{
 			color: grey;
 		}
+		a{
+			text-decoration: none;
+		}
 		
 	</style>
 </head>

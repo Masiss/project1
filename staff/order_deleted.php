@@ -42,13 +42,13 @@
 		</head>
 		<main>
 			<?php 
-				include '../extra/connect.php';
+			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-				$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đã hủy'")->fetch_array()['total_bill'];
+			$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đã hủy'")->fetch_array()['total_bill'];
 			require_once '../extra/pagi2.php';
 
 
-				 ?>
+			?>
 			<p style="font-size: 19px;">Số lượng đơn hàng đã xóa: <?php echo $result; ?> </p>
 			<table>
 				<tr>
@@ -61,36 +61,43 @@
 					<td>Ghi chú</td>
 					<td>Tình trạng</td>
 				</tr>
+				
 				<?php 
-				$bill_detail=mysqli_query($connect,"select * from bill_detail where status='đã hủy' limit $items offset $skip");
+				$bill_detail=mysqli_query($connect,"select bill.*,bill_detail.*  from bill  JOIN bill_detail on bill_detail.bill_id=bill.bill_id where status='đã hủy' limit $items offset $skip");
 				foreach ($bill_detail as $each) {
-					$id=$each['bill_id'];
-					$bill=mysqli_query($connect,"select * from bill where bill_id='$id'")->fetch_array();
-					$id_product=$each['product_id'];
-					$product=mysqli_query($connect,"select product_name from product where product_id='$id_product'")->fetch_array()['product_name'];
-					$id_user=$bill['user_id'];
-					$user_name=mysqli_query($connect,"select user_name from user where user_id='$id_user'")
-					->fetch_array()['user_name'];
+					?>
+
 					
+					<tr>
+						<td><?php echo $each['bill_id'] ?></td>
+						<td>
+							<?php 
+							$product_details=json_decode($each['product_details'],true);
+							foreach ($product_details as $key => $value) {
+								$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
+								echo $product_name;
+								?>
+								<?php echo 'size: '.$value['size'] ?>
+								<br>							
+							<?php } ?>
+
+						</td>
+						<td><?php echo $each['user_name'] ?></td>
+						<td><?php echo $each['user_address'] ?></td>
+						<td><?php echo $each['user_phone'] ?></td>
+						<td><?php echo $each['note'] ?></td>
+						<td><?php echo $each['status'] ?></td>
+						<td style="width:7%">
+							<a target="_blank"  href="./view_bill.php?id=<?php echo $each['bill_id'] ?>">
+								<button >Chi tiết</button>
+							</a>
+						</td>
 
 
-				 ?>
-				<tr>
-					<td><?php echo $bill['bill_id'] ?></td>
-					<td><?php echo $product ?></td>
-					<td><?php echo $each['quantity'] ?></td>
-					<td><?php echo $user_name ?></td>
-					<td><?php echo $bill['user_address'] ?></td>
-					<td><?php echo $bill['user_phone'] ?></td>
-					<td><?php echo $bill['note'] ?></td>
-					<td><?php echo $each['status'] ?></td>
 
 
-
-
-
-				</tr>
-			<?php } ?>
+					</tr>
+				<?php } ?>
 			</table>
 			<?php require_once '../extra/pagi3.php'; ?>
 		</main>

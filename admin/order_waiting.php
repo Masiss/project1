@@ -33,6 +33,12 @@
 		margin: 3px;
 		padding: 1px;
 	}
+	button{
+		background-color: skyblue;
+		color: white;
+		font-weight: 700;
+		border: none;
+	}
 	
 </style>
 <body>
@@ -49,55 +55,105 @@
 			<?php 
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-				$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đang đợi'")->fetch_array()['total_bill'];
+			$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đang đợi'")->fetch_array()['total_bill'];
 			require_once '../extra/pagi2.php';
 			?>
 
-			<p style="font-family: Nunito Sans, monospace;font-weight: 700;">Số hóa đơn chờ duyệt: <?php echo $result ?> </p>
+			<p style="font-family: Nunito Sans, monospace;font-weight: 700;">
+				Số hóa đơn chờ duyệt: <?php echo $result ?> 
+			</p>
+			<span id="announce" style="display: none;color:green; position:absolute;top:20%;right:30%">
+				Xử lí thành công
+			</span>
 			<table>
 				<tr>
 					<td>Mã đơn</td>
 					<td>Tên mặt hàng</td>
-					<td>Số lượng</td>
 					<td>Người mua</td>
 					<td>Địa chỉ</td>
 					<td>Số điện thoại</td>
+					<td>Thời gian tạo đơn</td>
 					<td>Ghi chú</td>
 				</tr>
 				<?php 
-				$bill=mysqli_query($connect,"select * from bill_detail where status='đang đợi' limit $items offset $skip");
-				foreach ($bill as $each) {
-					//get product_name
-					$id=$each['bill_id'];
-					$bill=mysqli_query($connect,"select * from bill where bill_id='$id'")->fetch_array();
-					$id_product=$each['product_id'];
-					$product=mysqli_query($connect,"select product_name from product where product_id='$id_product'")->fetch_array()['product_name'];
-					//get user_name
-					$id_user=$bill['user_id'];
-					$user_name=mysqli_query($connect,"select user_name from user where user_id='$id_user'")
-					->fetch_array()['user_name'];
-					
-
-
-				 ?>
-				<tr>
-					<td><?php echo $bill['bill_id'] ?></td>
-					<td><?php echo $product ?></td>
-					<td><?php echo $each['quantity'] ?></td>
-					<td><?php echo $user_name ?></td>
-					<td><?php echo $bill['user_address'] ?></td>
-					<td><?php echo $bill['user_phone'] ?></td>
-					<td><?php echo $bill['note'] ?></td>
-					<td><a href="./bill_process/bill_approve.php?id=<?php echo $bill['bill_id'] ?>" style="color: darkred;">Duyệt</a></td>
-					<td><a href="./bill_process/bill_cancel.php?id=<?php echo $bill['bill_id'] ?>"  style="color: darkred;">Hủy</a></td>
-				</tr>
-			<?php } ?>
+				$get_bill=mysqli_query($connect,"select bill_detail.*,bill.* from bill_detail join bill on bill_detail.bill_id=bill.bill_id where bill_detail.status='đang đợi' order by bill_detail.create_at desc limit $items offset $skip");
+				foreach ($get_bill as $each) {
+?>
+					<tr>
+						<td><?php echo $each['bill_id'] ?></td>
+						<td>
+							<?php 
+							$product_details=json_decode($each['product_details'],true);
+							foreach ($product_details as $key => $value) {
+								$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
+								echo $product_name;
+							 ?>
+							 <?php echo 'size: '.$value['size'] ?>
+							 <br>							
+							<?php } ?>
+						</td>
+						<td><?php echo $each['user_name'] ?></td>
+						<td><?php echo $each['user_address'] ?></td>
+						<td><?php echo $each['user_phone'] ?></td>
+						<td><?php echo $each['create_at'] ?></td>
+						<td><?php echo $each['note'] ?></td>
+						<td>
+							<a target="_blank" href="./view_bill.php?id=<?php echo $each['bill_id'] ?>">
+								<button>
+									Chi tiết
+								</button>
+							</a>
+						</td>
+						<td><a class="change_status" data-type="Duyệt" data-id="<?php echo $each['bill_id'] ?>" href="" style="color: darkred;">Duyệt</a></td>
+						<td><a class="change_status" data-type="Hủy" data-id="<?php echo $each['bill_id'] ?>" href=""  style="color: darkred;">Hủy</a></td>
+					</tr>
+				<?php } ?>
 			</table>
 			
 			<?php require_once '../extra/pagi3.php'; ?>
-	
+
 		</main>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".change_status").click(function(event) {
+				event.preventDefault();
+				let btn=$(this);
+				let url;
+				let a=btn.data('type');
+				let id=btn.data('id');
+				switch(a){
+					case ("Duyệt"): url="./bill_process/bill_approve.php";
+					break;
+					case ("Hủy"): url="./bill_process/bill_cancel.php";
+					break;
+				}
+
+
+				$.ajax({
+					url: url,
+					data: {id},
+				})
+				.done(function(check) {
+					btn.parents('tr').remove(),4000;
+					$("#announce").toggle("slow");
+					setTimeout(function(){
+						$("#announce").hide();}
+						,2000);
+
+				})
+				.fail(function() {
+					console.log("error");
+				})
+
+
+			});
+		});
+
+
+
+	</script>
 
 </body>
 </html>

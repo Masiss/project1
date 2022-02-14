@@ -19,10 +19,6 @@ if(isset($_SESSION['level'])){
 		exit;
 	}
 }
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html>

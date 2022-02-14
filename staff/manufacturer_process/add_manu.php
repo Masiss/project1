@@ -3,7 +3,7 @@ if(empty($_POST['name'])){
 	echo "Nhập tên nhà sản xuất đê alooooooo";
 	exit();
 } else {
-	$name=$_POST['name'];
+	$name=addslashes($_POST['name']);
 	include '../../extra/connect.php';
 
 

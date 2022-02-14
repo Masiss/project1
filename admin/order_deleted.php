@@ -28,7 +28,12 @@
 		margin: 3px;
 		padding: 1px;
 	}
-	
+	button{
+		border: none;
+		background-color: skyblue;
+		color: white;
+		font-weight: 700;
+	}
 </style>
 <body>
 	<?php include 'theme.php' ?>
@@ -54,35 +59,42 @@
 				<tr>
 					<td>Mã đơn</td>
 					<td>Tên mặt hàng</td>
-					<td>Số lượng</td>
 					<td>Người mua</td>
 					<td>Địa chỉ</td>
 					<td>Số điện thoại</td>
+					<td>Thời gian tạo đơn</td>
 					<td>Ghi chú</td>
 				</tr>
 				<?php 
-				$bill_detail=mysqli_query($connect,"select * from bill_detail where status='đã hủy' limit $items offset $skip");
+				$bill_detail=mysqli_query($connect,"select bill.*,bill_detail.*  from bill  JOIN bill_detail on bill_detail.bill_id=bill.bill_id where status='đã hủy' limit $items offset $skip");
 				foreach ($bill_detail as $each) {
-					$id=$each['bill_id'];
-					$bill=mysqli_query($connect,"select * from bill where bill_id='$id'")->fetch_array();
-					$id_product=$each['product_id'];
-					$product=mysqli_query($connect,"select product_name from product where product_id='$id_product'")->fetch_array()['product_name'];
-					$id_user=$bill['user_id'];
-					$user_name=mysqli_query($connect,"select user_name from user where user_id='$id_user'")
-					->fetch_array()['user_name'];
-					
-
-
 					?>
 					<tr>
-						<td><?php echo $bill['bill_id'] ?></td>
-						<td><?php echo $product ?></td>
-						<td><?php echo $each['quantity'] ?></td>
-						<td><?php echo $user_name ?></td>
-						<td><?php echo $bill['user_address'] ?></td>
-						<td><?php echo $bill['user_phone'] ?></td>
-						<td><?php echo $bill['note'] ?></td>
+						<td><?php echo $each['bill_id'] ?></td>
+						<td>
+							<?php 
+							$product_details=json_decode($each['product_details'],true);
+							foreach ($product_details as $key => $value) {
+								$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
+								echo $product_name;
+								?>
+								<?php echo 'size: '.$value['size'] ?>
+								<br>							
+							<?php } ?>
 
+						</td>
+						<td><?php echo $each['user_name'] ?></td>
+						<td><?php echo $each['user_address'] ?></td>
+						<td><?php echo '0'.$each['user_phone'] ?></td>
+						<td><?php echo $each['create_at'] ?></td>
+						<td><?php echo $each['note'] ?></td>
+						<td>
+							<a target="_blank" href="./view_bill.php?id=<?php echo $each['bill_id'] ?>">
+								<button>
+									Chi tiết
+								</button>
+							</a>
+						</td>
 
 
 

@@ -1,10 +1,16 @@
 <?php 
-
+if(empty($_POST['name_pro']) || empty($_POST['product_size']) || empty($_POST['price']) || empty($_POST['description'])) {
+	echo "Vui lòng nhập đầy đủ thông tin";
+	exit;
+} else if(strlen($_POST['product_size'])>20){
+	echo "Size lừa à alooooo";
+	exit;
+}
 $id=$_POST['id_product'];
 
-$name=$_POST['name_pro'];
-$price=$_POST['price'];
-$product_size=$_POST['product_size'];
+$name=addslashes($_POST['name_pro']);
+$price=addslashes($_POST['price']);
+$product_size=addslashes($_POST['product_size']);
 $type=$_POST['type_id'];
 $manu_id=$_POST['manufacturer_id'];
 $description=nl2br(addslashes($_POST['description']));
