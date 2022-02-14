@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="user.css">
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-	<title></title>
+	<title>Masiss Pomade</title>
 </head>
 <style type="text/css">
 
@@ -90,12 +90,12 @@
 		<b></b>
 
 	</div>
-
+	<span><?php if(isset($_GET['error'])){ echo $_GET['error']; } ?></span>
 	<main>
 		<div>
-			<form class="register">
+			<form class="register" method="POST" action="./process/register_process.php">
 				<p>Họ và tên:</p>
-				<input type="text" name="">
+				<input type="text" name="name">
 				<p>Giới tính:</p>
 				<p>
 					<input type="radio" name="gender">Nam
@@ -103,15 +103,15 @@
 					<input type="radio" name="gender">Không tiện nói
 				</p>
 				<p>Ngày sinh:</p>
-				<input type="date" name="">
+				<input type="date" name="date">
 				<p>Số điện thoại:</p>
-				<input type="number" name="">
+				<input type="number" name="phone">
 				<p>Địa chỉ:</p>
-				<input type="text" name="">
+				<input type="text" name="address">
 				<p>Email:</p>
-				<input type="email" name="">
+				<input type="email" name="email">
 				<p>Mật khẩu:</p>
-				<input type="password" name="">
+				<input type="password" name="password">
 				<br>
 				<button type="submit">Đăng ký</button>
 				<button type="reset">Nhập lại</button>

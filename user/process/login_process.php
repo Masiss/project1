@@ -3,8 +3,8 @@ if(empty($_POST['email']) || empty($_POST['password'])){
 	echo "Vui lòng nhập đầy đủ thông tin";
 	exit();
 }
-$email=$_POST['email'];
-$password=$_POST['password'];
+$email=addslashes($_POST['email']);
+$password=addslashes($_POST['password']);
 include '../../extra/connect.php';	
 $check_email=mysqli_query($connect,"select user_email from user where user_email='$email'")->num_rows;
 if($check_email==1){
@@ -20,12 +20,14 @@ if($check_email==1){
 	echo "Email có vấn đề, vui lòng kiểm tra và nhập lại email";
 	exit();
 }
+
 //save access
-if(isset($_POST['save_access'])){
+if(filter_var($_POST['save_access'],FILTER_VALIDATE_BOOLEAN)){
 	$save=true;
 } else {
 	$save =false;
 }
+
 if($save){
 		$token=uniqid('',true).time();
 		$update_token=mysqli_query($connect,"update user set token='$token' where user_email='$email' and user_password='$password'");
@@ -41,7 +43,9 @@ $id=$result['user_id'];
 $name=$result['user_name'];
 $_SESSION['id']=$id;
 $_SESSION['name']=$name;
-
-header('Location: ../index.php');
+if(isset($_COOKIE['cart'])){
+$_SESSION['cart']=json_decode($_COOKIE['cart'],true);	
+}
+echo "1";
 exit();
 

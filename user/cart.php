@@ -1,5 +1,4 @@
-<?php include './process/check_login.php';
- ?>
+<?php include './process/check_login.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="user.css">
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-	<title></title>
+	<title>Masiss Pomade</title>
 </head>
 <style type="text/css">
 
@@ -56,6 +55,20 @@
 	}
 	table{
 		text-align: center;
+		width: 100%;
+	}
+	td{
+		width: 10%px;
+	}
+	.payment{
+		box-sizing: border-box;
+		border: 2px solid white;
+		background-color: skyblue;
+		border-radius: 25px;
+		padding: 10px;
+		text-decoration: none;
+		color: white;
+		font-weight: 700;
 	}
 </style>
 <body>
@@ -84,32 +97,85 @@
 						<td>Tên sản phẩm</td>
 						<td>Ảnh</td>
 						<td>Giá</td>
-						<td></td>
+						<td>Kích thước</td>
+						<td class="btn-change"></td>
 						<td>Số lượng</td>
-						<td></td>
+						<td class="btn-change"></td>
 						<td>Tạm tính</td>
+						<td class="btn-change"></td>
 					</tr>
 					<?php 
 					$product=$_SESSION['cart'];
+					$sum=0;
 					foreach ($product as $each=>$value) {
 						$id=$each;
 						$info=mysqli_query($connect,"select * from product where product_id='$id'")->fetch_array();
 						?>	
 						<tr>
-							<td class="product_id"><?php echo $info['product_id'] ?></td>
-							<td><?php echo $info['product_name'] ?></td>
-							<td><img src="../admin/pic_product/<?php echo $info['product_image'] ?>"></td>
-							<td class="price"><?php echo $info['price'] ?></td>
-							<td><a class="btn-change" data-type="dec" data-id="<?php echo $info['product_id'] ?>" href="">-</a></td>
-							<td class="quantity"><?php echo $value['quantity'] ?></td>
-							<td><a class="btn-change" data-type="inc" data-id="<?php echo $info['product_id'] ?>" href="">+</a></td>
-							<td class="total"></td>
-							<td><a class="btn-change" data-type="delete" data-id="<?php echo $info['product_id'] ?>" href="">X</a></td>
+							<td class="product_id">
+								<?php echo $info['product_id'] ?>
+								
+							</td>
+							<td>
+								<?php echo $info['product_name'] ?>
+								
+							</td>
+							<td>
+								<img src="../admin/pic_product/<?php echo $info['product_image'] ?>">
+							</td>
+							<td id="price">
+								<?php echo number_format($info['price'],0,".",",") ?>
+
+							</td>
+							<td>
+								<?php echo $info['product_size']; ?>
+							</td>
+							<td>
+								<a class="btn-change" data-type="dec" data-id="<?php echo $info['product_id'] ?>" href="">
+									-
+								</a>
+							</td>
+							<td class="quantity" id="quantity">
+								<?php echo $value['quantity'] ?>
+
+							</td>
+							<td>
+								<a class="btn-change" data-type="inc" data-id="<?php echo $info['product_id'] ?>" href="">
+									+
+								</a>
+							</td>
+							<td class="total" name="total">
+								<?php
+								$sum+=($value['quantity']*$info['price']);
+								 echo number_format($value['quantity']*$info['price'],0,",",".");
+								  ?>
+
+							</td>
+							<td>
+								<a class="btn-change" data-type="delete" data-id="<?php echo $info['product_id'] ?>" href="">
+									X
+								</a>
+							</td>
 						</tr>
 					<?php } ?>
 				</table>
+				
 			<?php } ?>
 		</div>
+		<?php if(!empty($_SESSION['cart'])){ ?>
+		<div style="display:block; ">
+			<p style="width:fit-content;">Tổng đơn: 
+				<span id="all_total">
+					<?php
+					echo $sum;
+					 ?>
+				</span>
+				<a class="payment" id="payment">
+					Thanh toán
+				</a>
+			</p>
+		</div>
+	<?php } ?>
 	</main>
 	<?php include './theme2.php'; ?>
 
@@ -122,28 +188,49 @@
 			event.preventDefault();
 			let type=btn.data('type');
 			let id=btn.data('id');
-
+			let quantity=parseInt($(this).parents('tr').find('.quantity').text());	
+			let parent=$(this).parents('tr');
+			
+			
 			$.ajax({
 				url: './process/change_quantity.php',
 				data: {id,type},
 			})
 			.done(function(check) {
-				if(check!=="1"){
+				if(type==="delete"){
 					btn.parents('tr').remove();
 					$(".announce").text(check);
 				}else {
-					let quantity=$(".quantity").html();	
+
 					if(type=="dec"){
 						quantity--;
 					} else if(type=="inc"){
 						quantity++;
 					}
-					$(".quantity").text(quantity);
+					let price=parseInt(parent.find('#price').text());
+					parent.find('.quantity').text(quantity);
+					let total=parseInt(quantity)*price*1000;
+					parent.find(".total").text(total.toLocaleString());
+					all_total();
 				}
 			})
 			
 		});
 	});
+	function all_total(){
+		let sum=0;
+		let all_total=document.getElementsByName('total');
+		for(let i=0;i<all_total.length;i++){
+			sum+=parseInt(all_total[i].textContent.replace(/\./g,''));
+		}
+		document.getElementById('all_total').innerHTML=sum;
+	}
+	$("#payment").click(function(event) {
+		let total=parseInt(document.getElementById("all_total").textContent);
+		window.localStorage.setItem('total',total);
+		window.location.href='./payment.php';
+	});
+	
 
 
 </script>

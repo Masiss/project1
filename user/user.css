@@ -38,7 +38,9 @@ main{
 .header_top{
 	display: flex;
 }
-
+a{
+	text-decoration: none;
+}
 
 
 form input{
@@ -157,4 +159,50 @@ footer div p a{
 }
 footer div p{
 	color: white;
+}
+#popup{
+	position: fixed;
+	z-index: 1000;
+	width: 500px;
+	box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+	background-color: white;
+	padding: 50px 20px;
+	transform: translate(-50%,-50%);
+	transition: 0.5s;
+	top: -100%;
+	left: 50%;
+	height: fit-content;
+	visibility: hidden;
+}
+#popup.active{
+	visibility: visible;
+	opacity: 1;
+	top: 50%;
+}
+#popup h2{
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	position: relative;
+}
+#popup-content{
+	font-size: 23px;
+	text-transform: none;
+	color: black;
+}
+#popup a{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	position: relative;
+	margin-top: 30px;
+	width: 100%;
+	font-size: 25px;
+	background-color: green;
+	color: white;
+	font-weight: 800;
+}
+.blur{
+	filter: blur(5px);
 }

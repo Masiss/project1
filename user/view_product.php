@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php include './process/check_login.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="user.css">
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-	<title></title>
+	<title>Masiss Pomade</title>
 </head>
 <style type="text/css">
 	body{
@@ -23,7 +23,7 @@
 	img{
 		max-width: 100%;
 		max-height: 100%;
-			
+
 	}
 	.product_info{
 		display: inline-block;
@@ -69,6 +69,13 @@
 		top: 250px;
 		color: green;
 	}
+	select{
+		font-size:17px ;
+		padding: 10px;
+	}
+	option{
+		
+	}
 </style>
 <body>
 	<?php include 'theme1.php'; ?>
@@ -107,9 +114,19 @@
 				</p>
 				<br>
 				<p>
-					<a href="">
+					<form>
+						<select>
+						<?php 
+						$size=explode(',',$get_info['product_size']);
+						foreach ($size as $each) { ?>
+
+								<option value="<?php echo $each ?>"><?php echo $each ?></option>
+
+						<?php } ?> 
+							</select>
+
 						<button class="btn-add">Thêm vào giỏ hàng</button>
-					</a>
+					</form>
 				</p>
 			</div>
 			<p style="text-align: left;padding: 60px 30px;text-transform:none">
@@ -128,10 +145,12 @@
 		$(".btn-add").click(function(event) {
 			event.preventDefault();
 			let btn=$(this);
+			let size=$("select").val();
+			
 			let id=$("#id_product").val();
 			$.ajax({
 				url: './process/add_cart.php',
-				data: {id},
+				data: {id,size},
 			})
 			.done(function() {
 				$("#announce").text("Thêm vào giỏ hàng thành công");

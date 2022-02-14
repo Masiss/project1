@@ -91,17 +91,17 @@
 
 	<main>
 		<div>
-			<form class="register" method="post" action="./process/login_process.php">
+			<form class="register">
 				<span style="color:red" id="announce"></span>
 				<p>Email:</p>
 				<input id="email" type="email" name="email">
 				<p>Mật khẩu:</p>
 				<input id="password" type="password" name="password">
 				<br>
-				<input type="checkbox" name="save_access">Ghi nhớ đăng nhập
+				<input id="save_access" type="checkbox" name="save_access">Ghi nhớ đăng nhập
 				<br>
 				<button class="btn-submit" type="submit" onclick="return check()">Đăng nhập</button>
-				
+				<span id="announce"></span>
 			</form>
 			<span style="margin-left:35%">
 				*Nếu chưa có tài khoản, hãy nhấn
@@ -112,6 +112,8 @@
 	<?php include './theme2.php'; ?>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+
 <script type="text/javascript">
 	function check() {
 		let email=document.getElementById("email").value;
@@ -133,6 +135,30 @@
 		}
 		return check;
 	}
+	jQuery(document).ready(function($) {
+		$(".btn-submit").click(function(event) {
+			event.preventDefault();
+			let btn=$(this);
+			let email=$("#email").val();
+			let password=$("#password").val();
+			let save_access=Boolean($("#save_access").is(":checked")?true:false);
+
+			$.ajax({
+				url: './process/login_process.php',
+				type: 'POST',
+				data: {email,password,save_access},
+			})
+			.done(function(check) {
+				if(check!=="1"){
+					$("#announce").text(check);
+				}	else if(check==="1"){
+					window.location.href="./index.php";
+				}
+			})
+			
+			
+		});
+	});
 </script>
 
 </html>

@@ -3,10 +3,11 @@ session_start();
 $id=$_GET['id'];
 $type=$_GET['type'];
 $quantity=$_SESSION['cart'][$id]['quantity'];
-if(($_SESSION['cart'][$id]['quantity']==1 && $type=="dec") || $type="delete"){
+	
+if(($_SESSION['cart'][$id]['quantity']==1 && $type=="dec") || $type=="delete"){
 	unset($_SESSION['cart'][$id]);
 	echo "Đã xóa sản phẩm khỏi giỏ hàng";
-	exit();
+	
 } else{
 	if($type=="dec"){
 		$quantity--;
@@ -15,5 +16,7 @@ if(($_SESSION['cart'][$id]['quantity']==1 && $type=="dec") || $type="delete"){
 	}
 	$_SESSION['cart'][$id]['quantity']=$quantity;
 	echo "1";
-	exit();
+	
 }
+setcookie("cart",json_encode($_SESSION['cart']),time()+(3600*24*365),"/");
+exit();

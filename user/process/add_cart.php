@@ -1,15 +1,19 @@
 <?php 
 session_start();
 $id=$_GET['id'];
-
+$size=$_GET['size'];
 $exist=false;
 if(!empty($_SESSION['cart'][$id])){
-	$_SESSION['cart'][$id]['quantity']++;
-	$exist=true;
-
+	if(isset($_SESSION['cart'][$id]['size'])){
+		$_SESSION['cart'][$id]['quantity']++;
+		$exist=true;
+	} else{
+		$_SESSION['cart'][$id]['size']=$size;
+		$_SESSION['cart'][$id]['quantity']=1;
+	}
 }
 else{
-	
+	$_SESSION['cart'][$id]['size']=$size;
 	$_SESSION['cart'][$id]['quantity']=1;
 }
-$_COOKIE['cart']=$_SESSION['cart'];
+setcookie("cart",json_encode($_SESSION['cart']),time()+(3600*24*365),"/");

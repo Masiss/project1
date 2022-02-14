@@ -8,7 +8,10 @@ $change_token=mysqli_query($connect,"update user set token ='$new_token' where u
 unset($_SESSION['id']);
 unset($_SESSION['name']);
 unset($_SESSION['cart']);
+if(isset($_SESSION['level'])){
+	unset($_SESSION['level']);
+}
 setcookie('token','',-1,"/");
-setcookie('cart',serialize($_SESSION['cart']),time()+(3600*24*100),"/");
+
 header("Location: ../index.php");
 exit();
