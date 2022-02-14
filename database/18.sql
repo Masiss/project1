@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th2 12, 2022 lúc 01:51 PM
+-- Thời gian đã tạo: Th2 14, 2022 lúc 09:48 PM
 -- Phiên bản máy phục vụ: 5.7.33
 -- Phiên bản PHP: 7.4.19
 
@@ -32,17 +32,18 @@ CREATE TABLE `bill` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(50) NOT NULL,
   `user_address` varchar(300) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
   `user_phone` int(10) NOT NULL,
-  `note` text NOT NULL
+  `note` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `bill`
 --
 
-INSERT INTO `bill` (`bill_id`, `user_id`, `user_name`, `user_address`, `user_phone`, `note`) VALUES
-(5, 1, 'Bình', 'BRVT,TX.PM', 98262818, 'dasdasdsad'),
-(6, 2, 'dsad', 'dioasds', 837382821, 'coo deo a');
+INSERT INTO `bill` (`bill_id`, `user_id`, `user_name`, `user_address`, `user_email`, `user_phone`, `note`) VALUES
+(61, 1, 'Bình', 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 98262818, ''),
+(62, 1, 'Bình', 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 98262818, '');
 
 -- --------------------------------------------------------
 
@@ -52,8 +53,7 @@ INSERT INTO `bill` (`bill_id`, `user_id`, `user_name`, `user_address`, `user_pho
 
 CREATE TABLE `bill_detail` (
   `bill_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `product_details` json NOT NULL,
   `total` int(11) NOT NULL,
   `create_at` datetime NOT NULL,
   `status` varchar(50) NOT NULL
@@ -63,9 +63,9 @@ CREATE TABLE `bill_detail` (
 -- Đang đổ dữ liệu cho bảng `bill_detail`
 --
 
-INSERT INTO `bill_detail` (`bill_id`, `product_id`, `quantity`, `total`, `create_at`, `status`) VALUES
-(5, 5, 4, 129252492, '2022-02-03 18:31:16', 'đã hủy'),
-(6, 30, 6, 19278, '2022-01-31 18:31:53', 'đã hủy');
+INSERT INTO `bill_detail` (`bill_id`, `product_details`, `total`, `create_at`, `status`) VALUES
+(61, '{\"5\": {\"size\": \"4oz\", \"quantity\": 5}, \"38\": {\"size\": \"2oz\", \"quantity\": 1}, \"40\": {\"size\": \"none\", \"quantity\": 1}}', 2342312, '2022-02-14 21:44:20', 'đã hủy'),
+(62, '{\"7\": {\"size\": \"4oz\", \"quantity\": 2}, \"30\": {\"size\": \"4oz\", \"quantity\": 1}}', 2946666, '2022-02-14 21:45:55', 'đã duyệt');
 
 -- --------------------------------------------------------
 
@@ -85,8 +85,10 @@ CREATE TABLE `manufacturer` (
 INSERT INTO `manufacturer` (`manufacturer_id`, `manufacturer_name`) VALUES
 (231, 'By Vilain'),
 (230, 'Hanz de Fuko'),
+(235, 'Kenvin Murphy'),
 (227, 'Lockhart'),
 (229, 'Morgan'),
+(238, 'ok\''),
 (232, 'Tony'),
 (228, 'Valiant');
 
@@ -103,7 +105,7 @@ CREATE TABLE `product` (
   `product_image` varchar(200) NOT NULL,
   `price` int(11) NOT NULL,
   `description` text NOT NULL,
-  `product_size` varchar(5) NOT NULL,
+  `product_size` varchar(20) NOT NULL,
   `type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -112,13 +114,13 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `manufacturer_id`, `product_image`, `price`, `description`, `product_size`, `type_id`) VALUES
-(5, 'Lockhart UWB Goon Grease', 227, '1644086849.jpg', 32313123, 'Dung tích: 104g<br /><br /><br /><br />\r\nSản xuất: thủ công tại Mỹ<br /><br /><br /><br />\r\nThương hiệu: LOCKHART\'S AUTHENTIC', '4oz', 98),
+(5, 'Lockhart UWB Goon Grease', 227, '1644086849.jpg', 400000, 'Dung tích: 104g<br /><br /><br /><br /><br /><br /><br /><br /><br />\r\nSản xuất: thủ công tại Mỹ<br /><br /><br /><br /><br /><br /><br /><br /><br />\r\nThương hiệu: LOCKHART\'S AUTHENTIC', '4oz', 98),
 (7, 'Lockhart Goon Grease', 227, '1644086882.jpg', 1333333, 'dsfgă', '4oz', 98),
-(30, 'Valiant Matte Paste', 228, '1644087180.jfif', 3213, 'ofasdmopas', '4oz', 100),
+(30, 'Valiant Matte Paste', 228, '1644087180.jfif', 280000, 'ofasdmopas', '4oz', 100),
 (37, 'Morgan Oudh and Amber', 229, '1644261211.jpg', 312321, 'daoids', '4oz', 98),
 (38, 'Hanz de Fuko Modify Pomade', 230, '1644261306.jpg', 312312, '32313', '2oz', 100),
-(39, 'By Vilain Sidekick', 231, '1644261404.jpg', 323123, '312312', '3', 101),
-(40, 'Lược Tony', 232, '1644436651.jpg', 30000, 'Lược xịn vcl', 'none', 102);
+(40, 'Lược Tony', 232, '1644436651.jpg', 30000, 'Lược xịn vcl', 'none', 102),
+(45, '123', 231, '1644869213.PNG', 500000, 'quas ok', '4oz,500ml', 98);
 
 -- --------------------------------------------------------
 
@@ -144,11 +146,10 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staff_id`, `staff_name`, `gender`, `staff_email`, `staff_phone`, `staff_birthday`, `staff_password`, `staff_address`, `level`, `token`) VALUES
-(2, 'Po', 'Male', 'cocaiqq@hotmail.cc', 987865211, '2012-03-01', 'cocaiqqamanhin', 'Owr dau hoi cai deo gi', 0, '61db3a54ad05c4.225961181641757268'),
+(2, 'Po', 'Female', 'cocaiqq@hotmail.cc', 831233233, '2012-03-01', 'cocaiqqamanhin', 'Owr dau hoi cai deo gi', 0, '61db3a54ad05c4.225961181641757268'),
 (6, 'Pi', 'np2s', 'mspodas@fsmdp.dmopasmd', 987865233, '2134-11-19', '123456789', 'fmáodmpá', 0, NULL),
-(7, 'Amdó', 'male', 'admin@hot.poi', 937281783, '3013-01-01', '123', 'dksmpđoa', 1, '6206ac444ce229.782868341644604484'),
-(8, 'Peq', 'Female', 'fopa@dmsdop.dosad', 918312382, '1333-01-01', '3123133', 'dsdasdad', 0, NULL),
-(9, 'Pqe', 'Female', 'mdopsa@dspaod.dasopd', 938371273, '0331-01-01', '1234567', 'fosakdpoasd', 0, '61fec49bbf7605.600023271644086427');
+(7, 'Amdó', 'male', 'admin@hot.poi', 937281783, '3013-01-01', '123', 'dksmpđoa', 1, '620acd9b74eb20.829068241644875163'),
+(9, 'Pqe', 'Female', 'mdopsa@dspaod.dasopd', 938371273, '0331-01-01', '1234567', 'fosakdpoasd', 0, '620abaf5f21fa5.664600451644870389');
 
 -- --------------------------------------------------------
 
@@ -169,7 +170,8 @@ INSERT INTO `type` (`type_id`, `type_name`) VALUES
 (98, 'Pomade'),
 (100, 'Wax'),
 (101, 'Pre-styler'),
-(102, 'Phụ kiện');
+(102, 'Phụ kiện'),
+(103, 'dầu dưỡng');
 
 -- --------------------------------------------------------
 
@@ -194,8 +196,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `gender`, `user_phone`, `user_address`, `user_email`, `user_password`, `user_birthday`, `token`) VALUES
-(1, 'Bình', 'nam', 98262818, 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 'codeoa', '2003-11-01', '6206ca201ada07.923132111644612128'),
-(2, 'dsad', 'Male', 837382821, 'dioasds', 'dnasd@dsad.cmas', '4103832', '2015-01-01', NULL);
+(1, 'Bình', 'nam', 98262818, 'BRVT,TX.PM', 'mailchoivui@hotmail.dog', 'codeoa', '2003-11-01', '620abb0a4b7fb4.409889131644870410'),
+(2, 'dsad', 'Male', 837382821, 'dioasds', 'dnasd@dsad.cmas', '4103832', '2015-01-01', NULL),
+(3, 'Binh', 'on', 987654332, 'HCM', 'dangkychoivui@hotmail.dog', '123', '2000-11-03', '620ab2253856c3.556649001644868133');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -212,8 +215,7 @@ ALTER TABLE `bill`
 -- Chỉ mục cho bảng `bill_detail`
 --
 ALTER TABLE `bill_detail`
-  ADD KEY `bill_id` (`bill_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `bill_id` (`bill_id`);
 
 --
 -- Chỉ mục cho bảng `manufacturer`
@@ -256,19 +258,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `staff`
@@ -280,13 +282,13 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT cho bảng `type`
 --
 ALTER TABLE `type`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -302,8 +304,7 @@ ALTER TABLE `bill`
 -- Các ràng buộc cho bảng `bill_detail`
 --
 ALTER TABLE `bill_detail`
-  ADD CONSTRAINT `bill_detail_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`bill_id`),
-  ADD CONSTRAINT `bill_detail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
+  ADD CONSTRAINT `bill_detail_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `bill` (`bill_id`);
 
 --
 -- Các ràng buộc cho bảng `product`
