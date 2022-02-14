@@ -65,11 +65,7 @@ function check_product()
 			if(size===''){
 				document.getElementById('size_error').innerHTML='Vui lòng nhập kích thước';
 				check = false;
-			} else if(size.length>5) {
-				document.getElementById('size_error').innerHTML='Size lừa à duma, nhập đàng hoàng coi';
-				check=false;
-			}
-			else {
+			} else {
 				document.getElementById('size_error').innerHTML='';
 
 			}
@@ -86,8 +82,8 @@ function check_product()
 			return check;
 		}
 		function check_product_update()
-				{
-					let check=true;
+		{
+			let check=true;
 			//check name
 			let name = document.getElementById('name').value;
 			if(name==='')

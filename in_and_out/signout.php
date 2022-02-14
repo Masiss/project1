@@ -9,4 +9,4 @@ unset($_SESSION['id']);
 unset($_SESSION['name']);
 unset($_SESSION['level']);
 setcookie('token','',-1,"/");
-header("Location: ../userview/index.html");
+header("Location: ../user/index.php");
