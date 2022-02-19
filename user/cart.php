@@ -85,8 +85,11 @@
 		<div style="justify-content: center;display:flex; margin-top:30px">
 			<?php 
 			include '../extra/connect.php';
-			
-			if(empty($_SESSION['cart'])){?>
+			if(empty($_SESSION['id'])|| empty($_SESSION['name'])){ ?>
+				<p style="text-transform: none;font-size: 20px; color:black; margin:100px">
+					Tình năng chỉ dành cho khách hàng đã đăng nhập, vui lòng đăng nhập.
+				</p>
+			<?php } else if(empty($_SESSION['cart'])){?>
 				<p style="text-transform: none;font-size: 20px; color:black; margin:100px">
 					Bạn chưa thêm sản phẩm vào giỏ hàng,hãy thêm sản phẩm vào giỏ hàng rồi quay lại trang này sau.
 				</p>
@@ -108,8 +111,8 @@
 					$product=$_SESSION['cart'];
 					$sum=0;
 					foreach ($product as $each=>$value) {
-						$id=$each;
-						$info=mysqli_query($connect,"select * from product where product_id='$id'")->fetch_array();
+						
+						$info=mysqli_query($connect,"select * from product where product_id='$each'")->fetch_array();
 						?>	
 						<tr>
 							<td class="product_id">
@@ -124,11 +127,11 @@
 								<img src="../admin/pic_product/<?php echo $info['product_image'] ?>">
 							</td>
 							<td id="price">
-								<?php echo number_format($info['price'],0,".",",") ?>
+								<?php echo number_format($info['price'],0,",",".") ?>
 
 							</td>
-							<td>
-								<?php echo $info['product_size']; ?>
+							<td id="product_size">
+								<?php echo $value['size']; ?>
 							</td>
 							<td>
 								<a class="btn-change" data-type="dec" data-id="<?php echo $info['product_id'] ?>" href="">
@@ -170,7 +173,7 @@
 					echo $sum;
 					 ?>
 				</span>
-				<a class="payment" id="payment">
+				<a class="payment" id="payment" href="./payment.php">
 					Thanh toán
 				</a>
 			</p>
@@ -188,13 +191,14 @@
 			event.preventDefault();
 			let type=btn.data('type');
 			let id=btn.data('id');
+			let size=document.getElementById('product_size').textContent.replace(/\s+/g,'');
 			let quantity=parseInt($(this).parents('tr').find('.quantity').text());	
 			let parent=$(this).parents('tr');
 			
 			
 			$.ajax({
 				url: './process/change_quantity.php',
-				data: {id,type},
+				data: {id,type,size},
 			})
 			.done(function(check) {
 				if(type==="delete"){
@@ -207,9 +211,11 @@
 					} else if(type=="inc"){
 						quantity++;
 					}
-					let price=parseInt(parent.find('#price').text());
+					let price=parseInt(parent.find('#price').text().replace(/\./g,''));
+					console.log(price);
 					parent.find('.quantity').text(quantity);
-					let total=parseInt(quantity)*price*1000;
+					let total=parseInt(quantity)*price;
+					
 					parent.find(".total").text(total.toLocaleString());
 					all_total();
 				}
@@ -225,11 +231,7 @@
 		}
 		document.getElementById('all_total').innerHTML=sum;
 	}
-	$("#payment").click(function(event) {
-		let total=parseInt(document.getElementById("all_total").textContent);
-		window.localStorage.setItem('total',total);
-		window.location.href='./payment.php';
-	});
+	
 	
 
 

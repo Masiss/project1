@@ -193,8 +193,7 @@
 						<td >
 							
 							<?php 
-							$id_product=$info['product_id'];
-							echo $_SESSION['cart'][$id_product]['size'];
+							echo $value['size'];
 							?>
 						</td>
 						

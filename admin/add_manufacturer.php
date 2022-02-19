@@ -56,7 +56,7 @@
 					<input id="name" type="text" name="manu_name">
 				</div>
 				<button type="reset">Nhập lại</button>
-				<button id="btn-submit"  onclick="return check()" type="submit" >Đăng</button>
+				<button id="btn-submit"  onclick="return check()" type="submit" >Thêm</button>
 			</form>
 			<span style="color:red" id="error"></span>
 			<span style="color:green" id="announce"></span>

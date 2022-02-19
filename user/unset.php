@@ -31,4 +31,19 @@ include '../extra/connect.php';
 // var_dump($get_bill);
 // foreach ($get_bill as $key =>$value) {
 // 	echo $key;
-echo $_SESSION['total'];
+unset($_SESSION['cart']);
+// $size=4;
+// $_SESSION['cart']['7']=$size;
+// $count=sizeof($_SESSION['car']['7']);
+// $_SESSION['cart']['7'][$size]=['quantity'=>10];
+// echo json_encode($_SESSION['cart']);
+
+// $quantity=['quantity'=>4,'size'=>'4oz'];
+// $size=['size'=>'4oz'];
+// array_push($_SESSION['cart'], $quantity);
+// array_push($_SESSION['cart'][5], ['total'=>450000]);
+
+// var_dump($_SESSION['cart'][5]);
+// foreach ($_SESSION['cart'] as $key => $value) {
+// 	var_dump( key($value));
+// }

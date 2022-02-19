@@ -9,6 +9,9 @@
 			<li>
 				<a href="staff_manage.php">Quản lí nhân viên</a>
 			</li>
+			<li  class="mini-tab">
+				<a href="add_staff.php" >Thêm nhân viên</a>
+			</li>
 			<li >
 				<a href="product_manage.php">Quản lí sản phẩm</a>
 			</li>

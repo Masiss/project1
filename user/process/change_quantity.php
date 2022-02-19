@@ -2,6 +2,7 @@
 session_start();
 $id=$_GET['id'];
 $type=$_GET['type'];
+$size=$_GET['size'];
 $quantity=$_SESSION['cart'][$id]['quantity'];
 	
 if(($_SESSION['cart'][$id]['quantity']==1 && $type=="dec") || $type=="delete"){

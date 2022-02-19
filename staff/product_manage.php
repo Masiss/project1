@@ -54,7 +54,7 @@
 			$result=$result->fetch_array()["total_product"];
 			require_once '../extra/pagi2.php';
 
-			$sql="select * from product where product_name like '%$search%' limit $items offset $skip";
+			$sql="SELECT product.*,manufacturer.* FROM `product` JOIN manufacturer on product.manufacturer_id=manufacturer.manufacturer_id where product.product_name like '%$search%' limit $items offset $skip";
 			$all_product=mysqli_query($connect,$sql);
 			?>
 
@@ -76,39 +76,44 @@
 
 
 				foreach ($all_product as $each) {
-					$id_manu=$each['manufacturer_id'];
-					$name_manu=mysqli_query($connect,"select manufacturer_name
-						from manufacturer where manufacturer_id='$id_manu'");
-					$name_manu=$name_manu->fetch_array()['manufacturer_name'];
-					$each['manufacturer_id']=$name_manu;
-					$id_type=$each['type_id'];
-					$type=mysqli_query($connect,"select type_name
-						from type where type_id='$id_type'");
-					$type=$type->fetch_array()['type_name'];
-					$each['type_id']=$type;
+
 					?>
 					<tr>
 
 						<td><?php echo $each['product_id'] ?></td>
 						<td><?php echo $each['product_name'] ?></td>
 						<td><img src="../admin/pic_product/<?php echo $each['product_image'] ?>" style="height: 100px;width:100px;"></td>
-						<td><?php echo $each['manufacturer_id'] ?></td>
+						<td><?php echo $each['manufacturer_name'] ?></td>
 						<td><?php echo $each['price'] ?></td>
 						<td><?php echo $each['product_size'] ?></td>
-						<td><?php echo $each['type_id'] ?></td>
-						<td>
-							<a target="_blank" href="../user/view_product.php?id=<?php echo $each['product_id'] ?>">
-								<button>Chi tiết</button>
-							</a>
-						</td>
-						<td><a href="./product_process/form_update.php?id=<?php echo $each['product_id']  ?>"><button>Sửa</button></a> </td>				
-					</tr>
-				<?php } ?>
-				
-			</table>
-			<?php require_once '../extra/pagi3.php'; ?>
-		</main>
-	</div>
+						<td><?php 
+						$type=explode(',',$each['type_id']);
+						foreach ($type as $key) {
+							$each['type_id']=mysqli_query($connect,"select type_name from type where type_id='$key'")->fetch_array()['type_name'];
+							echo $each['type_id'].' ';
+						} 
+						?>	
+						.
+					</td>
+					<td>
+						<a target="_blank" href="../user/view_product.php?id=<?php echo $each['product_id'] ?>">
+							<button>Chi tiết</button>
+						</a>
+					</td>
+					<td>
+						<a href="./product_process/form_update.php?id=<?php echo $each['product_id']  ?>"><button>
+							Sửa
+						</button>
+					</a>
+				</td>
+								
+			</tr>
+		<?php } ?>
+
+	</table>
+	<?php require_once '../extra/pagi3.php'; ?>
+</main>
+</div>
 
 </body>
 </html>

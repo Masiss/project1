@@ -9,15 +9,15 @@
 	<style type="text/css">
 		body{
 			background-color: skyblue;
+			display: flex;
+			justify-content: center;
 		}
 		div{
 			background-color: whitesmoke;
 			width: 30%;
-			left: 30%;
-			position: absolute;
-			padding: 5em;
+			position: relative;
 			justify-content: center;
-			padding-top: 2em;
+			padding: 100px;
 
 		}
 		header{
@@ -34,7 +34,6 @@
 			text-align: center;
 		}
 		input{
-			font-family: 
 			font-size: 20px;
 			background-color: #f2f2f2;
 			border: 0;
@@ -50,6 +49,8 @@
 			border-radius: 10px;
 			font-family:"Source Sans 3";
 			
+		}
+		form{
 		}
 		span{
 			color: red;
@@ -89,7 +90,7 @@
 					<p>
 						Giá
 						<br>
-						<input id="price" type="number" name="price" value="<?php echo $each['price'] ?>">
+						<input id="price" type="text" name="price" value="<?php echo $each['price'] ?>">
 						<span id="price_error"></span>
 					</p>
 					<p>
@@ -106,38 +107,40 @@
 						<span id="des_error"></span>
 					</p>
 				<?php } ?>
-				<p>
-					Loại sản phẩm:
-					<br>
-					<select name='type_id' style="width: 50%; height:30px;">
-						<?php 
-						$all_type=mysqli_query($connect,"select * from type");
-						foreach($all_type as $type){
-							?>
-							<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" 
-								<?php if($each['type_id']===$type['type_id']) echo 'selected="selected"';?>>
-								<?php echo $type['type_name']; ?></option>
-							<?php } ?>
-						</select>
-
-					</p>
-					<p>
-						Nhà sản xuất
+				<div style="display:flex;flex-direction: row;justify-content:space-between;padding:0;width:100%">
+					<p style="display:flex;flex-direction:column;">
+						Loại sản phẩm:
 						<br>
-						<select name='manufacturer_id' style="width: 50%; height:30px;">
-							<?php
-							$all_manu=mysqli_query($connect,"select * from manufacturer"); 
-							foreach ($all_manu as $manu) {
+						<select name='type_id[]' style="width: 50%; height:100px;width:100%" multiple>
+							<?php 
+							$all_type=mysqli_query($connect,"select * from type");
+							foreach($all_type as $type){
 								?>
+								<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" 
+									<?php if($each['type_id']===$type['type_id']) echo 'selected="selected"';?>>
+									<?php echo $type['type_name']; ?></option>
+								<?php } ?>
+							</select>
 
-								<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>"
-									<?php if($each['manufacturer_id']===$manu['manufacturer_id']) echo 'selected="selected"';?>> 
-									<?php echo $manu['manufacturer_name']; ?>
-								</option>
-							<?php } ?>
-						</select>
+						</p>
+						<p style="display:flex;flex-direction:column;width:25%">
+							Nhà sản xuất
+							<br>
+							<select name='manufacturer_id' style="width: 100%; height:30px;">
+								<?php
+								$all_manu=mysqli_query($connect,"select * from manufacturer"); 
+								foreach ($all_manu as $manu) {
+									?>
 
-					</p>
+									<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>"
+										<?php if($each['manufacturer_id']===$manu['manufacturer_id']) echo 'selected="selected"';?>> 
+										<?php echo $manu['manufacturer_name']; ?>
+									</option>
+								<?php } ?>
+							</select>
+
+						</p>
+					</div>
 					<a href="" style="display: flex;justify-content:center;text-decoration: none;">
 						<button onclick="return check_product_update()" type="submit">
 							Thay đổi

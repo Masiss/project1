@@ -129,16 +129,21 @@
 		<b></b>
 
 	</div>
-<?php if(empty($_GET['search'])){
+<?php if(empty($_GET['type']) || empty($_GET['search'])){
 	header("Location './index.php'");
-} 
+}  
 $search=$_GET['search'];
+$type=isset($_GET['type'])?$_GET['type']:null;
 ?>
 	<main>
 		<div  class="blog-list" > 
 			<div class="blog-list-inner">
 				<?php include '../extra/connect.php';
+				if(isset($search)){
 				$result=mysqli_query($connect,"select * from product where product_name like '%$search%'");
+				} else if(isset($type)){
+					$result=mysqli_query($connect,"select * from product where product_name like '%$type%'");
+				}
 				foreach ($result as $each) {
 					?>
 					<article class="blog-list-items">

@@ -9,12 +9,14 @@
 	<style type="text/css">
 		body{
 			background-color: skyblue;
+			display: flex;
+			justify-content: center;
 		}
 		div{
 			background-color: whitesmoke;
 			width: 30%;
-			left: 30%;
-			position: absolute;
+			
+			position: relative;
 			padding: 5em;
 			justify-content: center;
 			padding-top: 2em;
@@ -94,7 +96,7 @@
 					<p>
 						Giá
 						<br>
-						<input id="price" type="number" name="price" value="<?php echo $each['price'] ?>">
+						<input id="price" type="text" name="price" value="<?php echo $each['price'] ?>">
 						<span id="price_error"></span>
 					</p>
 					<p>
@@ -110,44 +112,50 @@
 						<textarea id="description" style="width:80%;" name="description"><?php echo $each['description'] ?></textarea>
 						<span id="des_error"></span>
 					</p>
+					<div style="display:flex;flex-direction: row;width:100%;padding:0;justify-content:space-between;">
+						
+							<p style="display:flex;flex-direction:column;">
+								Loại sản phẩm:
+								<br>
+								<select name='type_id[]' style="width: 100%; height:100px;" multiple>
+									<?php 
+									$all_type=mysqli_query($connect,"select * from type");
+									foreach($all_type as $type){
+										?>
+										<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" 
+											<?php if($each['type_id']===$type['type_id']) echo 'selected="selected"';?>>
+											<?php echo $type['type_name']; ?></option>
+										<?php } ?>
+									</select>
+									<span style="font-size: 13px;">
+										*Nếu không có, nhấn vào <a href="add_type.php?id=<?php echo $id ?>">thêm</a> 
+									</span>
+								</p>
+							
+							
+						
+								<p style="display:flex;flex-direction:column;align-content: center;align-items: center;">
+									Nhà sản xuất
+									<br>
+									<select name='manufacturer_id' style="width: 50%; height:30px;">
+										<?php
+										$all_manu=mysqli_query($connect,"select * from manufacturer"); 
+										foreach ($all_manu as $manu) {
+											?>
 
-					<p>
-						Loại sản phẩm:
-						<br>
-						<select name='type_id' style="width: 50%; height:30px;">
-							<?php 
-							$all_type=mysqli_query($connect,"select * from type");
-							foreach($all_type as $type){
-								?>
-								<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" 
-									<?php if($each['type_id']===$type['type_id']) echo 'selected="selected"';?>>
-									<?php echo $type['type_name']; ?></option>
+											<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>"
+												<?php if($each['manufacturer_id']===$manu['manufacturer_id']) echo 'selected="selected"';?>> 
+												<?php echo $manu['manufacturer_name']; ?>
+											</option>
+										<?php } ?>
+									</select>
 								<?php } ?>
-							</select>
-							<p style="margin: 0;border:0;font-size: 13px;">
-								*Nếu không có, nhấn vào <a href="add_type.php?id=<?php echo $id ?>">thêm</a> 
+								<span style="margin: 0;border:0;font-size: 13px;">
+									*Nếu không có, nhấn vào <a href="add_manu.php?id=<?php echo $id ?>">thêm</a> 
+								</span>
 							</p>
-						</p>
-						<p>
-							Nhà sản xuất
-							<br>
-							<select name='manufacturer_id' style="width: 50%; height:30px;">
-								<?php
-								$all_manu=mysqli_query($connect,"select * from manufacturer"); 
-								foreach ($all_manu as $manu) {
-									?>
-
-									<option style="font-size: 15px" value="<?php echo $manu['manufacturer_id'] ?>"
-										<?php if($each['manufacturer_id']===$manu['manufacturer_id']) echo 'selected="selected"';?>> 
-										<?php echo $manu['manufacturer_name']; ?>
-									</option>
-								<?php } ?>
-							</select>
-						<?php } ?>
-						<p style="margin: 0;border:0;font-size: 13px;">
-							*Nếu không có, nhấn vào <a href="add_manu.php?id=<?php echo $id ?>">thêm</a> 
-						</p>
-					</p>
+					
+					</div>
 					<a href="" style="display: flex;justify-content:center;text-decoration: none;">
 						<button type="submit" onclick="return check_product_update()" >
 							Thay đổi
