@@ -68,29 +68,29 @@
 					<input  type="file" name="image" style="border:0;" id="image">
 					<span id="image_error"></span>
 				</div>
-				
-				<div  >Giá
-					<span style="color:gray;position: absolute;left: 20%;top: 38%;font-size:13px">
-						*Ghi giá và kích thước theo đúng thứ tự, cách nhau bởi dấu phẩy(,)
-					</span>
-					<br>
-					<input  type="text" name="price" id="price">
-					<span id="price_error"></span>
+				<div id="row_add" style="display:flex;flex-direction:row;">
+					<div  >
+						Giá
+						<br>
+						<input  type="text" name="price" id="price">
+						<span id="price_error"></span>
+					</div>
+
+					<div  style="margin-left: 100px;">
+						Kích thước:
+
+						<br>
+						<input  type="text" name="size" id="size">
+
+						<span id="size_error"></span>
+
+					</div>
+					<button type="button" id="btn-add" onclick="add()">Thêm</button>
 				</div>
 				<div >Mô tả: 
 					<br>
 					<textarea  name="description" id="description"></textarea>
 					<span id="des_error"></span>
-				</div>
-				<div >Kích thước:
-					<span style="color:gray;position: absolute;left: 20%;bottom: 41%;font-size:13px">
-						*Nếu sản phẩm có nhiều kích thước thì cách nhau bằng dấu phẩy(,)
-					</span> 
-					<br>
-					<input  type="text" name="size" id="size">
-
-					<span id="size_error"></span>
-					
 				</div>
 				<div style="display:flex; flex-direction:row">
 					<div style="display: flex;width:25%;flex-direction: column;">
@@ -147,6 +147,14 @@
 			$(document).ready(function() {
 				$("form").submit(function(event) {
 					event.preventDefault();
+					let size=[];
+					let size_arr=document.getElementsByName("size").forEach(function(each) {
+						size.push(each.value);
+					});
+					let price=[];
+					let price_arr=document.getElementsByName("price").forEach(function(each) {
+						price.push(each.value);
+					});		
 					let type_id=[];
 					let arr=$(".type option:selected");
 
@@ -160,10 +168,11 @@
 						return;
 					}
 					var formData = new FormData(this);
-					console.log(formData);
 					// Attach file
 					formData.append('image', $('input[type=file]')[0].files[0]); 
 					formData.append('type_id',type_id);
+					formData.append('size',size);
+					formData.append('price',price);
 					$.ajax({
 						url: './product_process/product-processing.php',
 						data: formData,
@@ -192,6 +201,9 @@
 				}
 				$("#type").clone().appendTo('#type_list');
 			}
+			function add() {
+				$("#row_add").clone().insertBefore('#row_add',null);
+			};
 			
 			
 

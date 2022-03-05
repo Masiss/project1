@@ -120,6 +120,11 @@
 							<br>
 							<input id="email" type="email" name="staff_email" value="<?php echo $each['staff_email'] ?>">
 							<span id="mail_error"> </span>
+						</p><p>
+							Mật khẩu:
+							<br>
+							<input id="password" type="password" name="staff_password" value="<?php echo $each['staff_password'] ?>">
+							<span id="password_error"> </span>
 						</p>
 						<a href="" style="display: flex;justify-content:center;text-decoration: none;">
 							<button type="submit"  onclick="return check()">Thay đổi</button>
@@ -201,6 +206,14 @@
 			} else {
 				document.getElementById('mail_error').innerHTML='';
 				
+			}
+			//check password
+			let password=document.getElementById('password').value;
+			if(password==""){
+				document.getElementById('password_error').innerHTML="Vui lòng nhập mật khẩu";
+				check=false;
+			} else{
+				document.getElementById('password_error').innerHTML='';
 			}
 			return check;
 		}

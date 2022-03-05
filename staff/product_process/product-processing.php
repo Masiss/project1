@@ -7,7 +7,7 @@ if(empty($_POST['name_pro']) || empty($_FILES['image']) || empty($_POST['price']
 	exit();
 }
 $name_pro=addslashes($_POST['name_pro']);
-$manu_id=$_POST['manufacturer_id'];
+$manu_id=addslashes($_POST['manufacturer_id']);
 $pic=$_FILES['image'];
 $price=explode(',',$_POST['price']);
 $description=nl2br(addslashes($_POST['description']));

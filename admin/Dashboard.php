@@ -42,16 +42,16 @@
 			$count_user=mysqli_query($connect,"select count(*) as total_user from user")->fetch_array()['total_user'];
 			$count_staff=mysqli_query($connect,"select count(*) as total_staff from staff")->fetch_array()['total_staff'];
 
-			$count_bill_approved=mysqli_query($connect,"select count(*) as total_approved from bill_detail where status='đã duyệt'")->fetch_array()['total_approved'];
-			$count_bill_waiting=mysqli_query($connect,"select count(*) as total_waiting from bill_detail where status='đang đợi'")->fetch_array()['total_waiting'];
-			$count_bill_canceled=mysqli_query($connect,"select count(*) as total_canceled from bill_detail where status='đã hủy'")->fetch_array()['total_canceled'];
+			$count_bill_approved=mysqli_query($connect,"select count(*) as total_approved from bill where status='1'")->fetch_array()['total_approved'];
+			$count_bill_waiting=mysqli_query($connect,"select count(*) as total_waiting from bill where status='0'")->fetch_array()['total_waiting'];
+			$count_bill_canceled=mysqli_query($connect,"select count(*) as total_canceled from bill where status='3'")->fetch_array()['total_canceled'];
 			$today=date('Y-m-d');
-			$check_revenue=mysqli_query($connect,"select total from bill_detail where date(create_at)='$today'")->fetch_array();
+			$check_revenue=mysqli_query($connect,"select total from bill where date(create_at)='$today'")->fetch_array();
 		
 			if(empty($check_revenue)){
 				$day_revenue=0;
 			} else {
-				$day_revenue=mysqli_query($connect,"select sum(total) as 'revenue' from bill_detail where date(create_at)='$today' group by day(create_at)")->fetch_array()['revenue'];
+				$day_revenue=mysqli_query($connect,"select sum(total) as 'revenue' from bill where date(create_at)='$today' group by day(create_at)")->fetch_array()['revenue'];
 			}
 		
 			
@@ -77,7 +77,7 @@
 				$date_for_data=$year.'-'.$this_month.'-'.$start_day;
 
 			}
-			$sql="select sum(total) as 'week_revenue'from bill_detail where date(create_at) between '$date_for_data' and '$today'";
+			$sql="select sum(total) as 'week_revenue'from bill where date(create_at) between '$date_for_data' and '$today'";
 			$week_revenue=mysqli_query($connect,$sql);
 				
 			if(empty($week_revenue)){

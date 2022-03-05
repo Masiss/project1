@@ -48,7 +48,7 @@
 			<?php 
 			include '../extra/connect.php';
 			require_once '../extra/pagi1.php';
-			$result=mysqli_query($connect,"select count(*) as total_bill from bill_detail where status='đang đợi'")->fetch_array()['total_bill'];
+			$result=mysqli_query($connect,"select count(*) as total_bill from bill where status='0'")->fetch_array()['total_bill'];
 			require_once '../extra/pagi2.php';;
 			?>
 
@@ -69,7 +69,10 @@
 				</tr>
 				<?php 
 				
-				$get_bill=mysqli_query($connect,"select bill_detail.*,bill.* from bill_detail join bill on bill_detail.bill_id=bill.bill_id where bill_detail.status='đang đợi' order by bill_detail.create_at desc limit $items offset $skip");
+				$get_bill=mysqli_query($connect,"SELECT bill.*,user.* from bill
+					JOIN user on bill.user_id=user.user_id
+					where bill.status='0'
+					order by bill.create_at desc  limit $items offset $skip");
 				foreach ($get_bill as $each) {
 					?>
 
@@ -78,19 +81,18 @@
 						<td><?php echo $each['bill_id'] ?></td>
 						<td>
 							<?php 
-							$product_details=json_decode($each['product_details'],true);
-							foreach ($product_details as $key => $value) {
-								$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
-								echo $product_name;
+							$get_product=mysqli_query($connect,"select product.*,bill_detail.* from product join bill_detail on bill_detail.product_id=product.product_id where bill_detail.bill_id='{$each['bill_id']}'");
+							foreach ($get_product as $key ) {
+								echo $key['product_name'];
 								?>
-								<?php echo 'size: '.$value['size'] ?>
+								<?php echo 'size: '.$key['product_size'] ?>
 								<br>							
 							<?php } ?>
 						</td>
 						<td><?php echo $each['total'] ?></td>
 						<td><?php echo $each['user_name'] ?></td>
 						<td><?php echo $each['user_address'] ?></td>
-						<td><?php echo $each['user_phone'] ?></td>
+						<td><?php echo '0'.$each['user_phone'] ?></td>
 						<td><?php echo $each['create_at'] ?></td>
 						<td><?php echo $each['note'] ?></td>
 						<td style="width:7%">

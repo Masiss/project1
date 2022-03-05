@@ -1,9 +1,9 @@
 <?php 
 include '../../extra/connect.php';
 $id=$_GET['id'];
-$sql="update bill_detail
+$sql="update bill
 set 
-status='đã duyệt'
+status='1'
 where bill_id='$id'";
 mysqli_query($connect,$sql);
 

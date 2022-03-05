@@ -23,18 +23,17 @@ $description=nl2br(addslashes($_POST['description']));
 $size=explode(',',$_POST['size']);
 $type_id=addslashes($_POST['type_id']);
 include '../../extra/connect.php';
+//save pic
 
+$folder='../pic_product/';
+$file_extension=explode('.', $pic["name"])[1];
+$pic_product=time().'.'.$file_extension;
+$path_file=$folder.$pic_product;
+
+move_uploaded_file($pic["tmp_name"], $path_file);
 if(count($size)!=1){
 	for($i=0;$i<count($size);$i++){
-		//save pic
-
-		$folder='../pic_product/';
-		$file_extension=explode('.', $pic["name"])[1];
-		$pic_product=time().'.'.$file_extension;
-		$path_file=$folder.$pic_product;
-
-		move_uploaded_file($pic["tmp_name"], $path_file);
-
+		
 		$product_price=$price[$i];
 		$product_size=$size[$i];
 		$sql="insert into product(product_name,price,description,product_size,manufacturer_id,type_id,product_image) 
@@ -43,15 +42,8 @@ if(count($size)!=1){
 		mysqli_query($connect,$sql);
 	}
 } else {
-//save pic
-
-	$folder='../pic_product/';
-	$file_extension=explode('.', $pic["name"])[1];
-	$pic_product=time().'.'.$file_extension;
-	$path_file=$folder.$pic_product;
-
-	move_uploaded_file($pic["tmp_name"], $path_file);
-
+	$size=$size[0];
+	$price=$price[0];
 	$sql="insert into product(product_name,price,description,product_size,manufacturer_id,type_id,product_image) 
 	values('$name_pro','$price','$description','$size','$manufacturer_id','$type_id','$pic_product')";
 
@@ -59,5 +51,6 @@ if(count($size)!=1){
 
 }
 
-	echo "1";
+echo "1";
 
+exit();

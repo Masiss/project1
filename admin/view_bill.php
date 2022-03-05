@@ -63,10 +63,8 @@
 		</head>
 		<?php $id=$_GET['id']; 
 		include '../extra/connect.php';
-		$bill=mysqli_query($connect,"SELECT bill_detail.*,bill.* from bill
-			JOIN bill_detail on bill.bill_id=bill_detail.bill_id 
-			where bill.bill_id='$id'")->fetch_array();
-		
+		$bill=mysqli_query($connect,"SELECT bill.* from bill
+			where bill_id='$id'")->fetch_array();
 		
 
 			?>
@@ -105,25 +103,21 @@
 							<td>Tạm tính</td>
 						</tr>
 						<?php 
-						$bill_detail=mysqli_query($connect,"select * from bill_detail where bill_id='$id'")->fetch_array();
-
-						$product_details=json_decode($bill_detail['product_details'],true);
-
-						foreach ($product_details as $key=> $value) {
-
-							$product=mysqli_query($connect,"select * from product where product_id='$key'")->fetch_array();
-
-
+						$get_product=mysqli_query($connect,"select bill_detail.*,product.* from bill_detail join product on bill_detail.product_id=product.product_id where bill_detail.bill_id='{$bill['bill_id']}'");
+						
+						foreach ($get_product as $key) {
+							// code...
+						
 							?>
 							<tr>
-								<td><img src="./pic_product/<?php echo $product['product_image'] ?>"></td>
+								<td><img src="./pic_product/<?php echo $key['product_image'] ?>"></td>
 								<td>
 									
-									<?php echo $product['product_name']; ?>
+									<?php echo $key['product_name']; ?>
 								</td>
-								<td><?php echo $value['quantity'] ?></td>
-								<td><?php echo $value['size'] ?></td>
-								<td><?php echo ($value['quantity']*$product['price'])?></td>
+								<td><?php echo $key['quantity'] ?></td>
+								<td><?php echo $key['product_size'] ?></td>
+								<td><?php echo ($key['quantity']*$key['price'])?></td>
 							</tr>
 						<?php } ?>
 						<tr>

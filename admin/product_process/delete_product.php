@@ -1,15 +1,12 @@
 <?php 
 include '../../extra/connect.php';
 $id=$_POST['id'];
-$check=mysqli_query($connect,"select product_details from bill_detail where status='đang đợi'");
+$check=mysqli_query($connect,"select bill_detail.product_id,bill.status from bill_detail join bill on bill_detail.bill_id=bill.bill_id where bill_detail.product_id='$id' and bill.status='0'");
 if($check->num_rows>0){
-	$get_bill=json_decode($check->fetch_array()['product_details'],true);
-	foreach ($get_bill as $key => $value) {
-		if($id==$key){
+	
 			echo 'Đã xảy ra lỗi! Sản phẩm đang tồn tại trong đơn hàng đang đợi, hãy xử lí đơn hàng trước ';
 			exit();
-		}
-	}
+		
 }
 
 $get_info=mysqli_query($connect,"select * from product where product_id='$id'")->fetch_array();

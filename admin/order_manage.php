@@ -32,6 +32,9 @@
 		width: auto;
 		height: auto;
 	}
+	td{
+		padding: 3px;
+	}
 	
 </style>
 <body>
@@ -74,43 +77,43 @@
 					<td>Tình trạng</td>
 				</tr>
 				<?php 
-				$sql="SELECT bill_detail.*,bill.*,user.* from bill_detail
-				JOIN bill on bill_detail.bill_id=bill.bill_id 
+				$sql="SELECT bill.*,user.* from bill
 				JOIN user on bill.user_id=user.user_id
-				order by bill_detail.create_at desc limit $items offset $skip";
-
+				order by bill.create_at desc limit $items offset $skip";
 				$all_bill=mysqli_query($connect,$sql);
 				foreach ($all_bill as $each) {
-					$product_details=json_decode($each['product_details'],true);
-
 					?>
 					<tr>
 
 						<td><?php echo $each['bill_id']; ?></td>
-						<td><?php foreach ($product_details as $key => $value) { 
-							$product_name=mysqli_query($connect,"select product_name from product where product_id='$key'")->fetch_array()['product_name'];
+						<td><?php
+						$get_product=mysqli_query($connect,"select product.*, bill_detail.* from product join bill_detail on bill_detail.product_id=product.product_id where bill_detail.bill_id='{$each['bill_id']}'");
+						foreach ($get_product as $key) {
+							echo $key['product_name'].'. '.'size'.$key['product_size'];
+						 ?>
+						  
 							
-							?>
-
-							<?php echo $product_name.'.'; ?>
-							
-							<?php echo "size".' '.$value['size'] ?>
 							<br>
+						<?php }?>
 
-						<?php } ?>
 						</td>
 						<td><?php echo $each['total'] ;?></td>
 						<td><?php echo $each['user_name']; ?></td>
 						<td><?php echo '0'. $each['user_phone']; ?></td>
 						<td><?php echo $each['note']; ?></td>
 						<td><?php echo $each['create_at']; ?></td>
-						<td id="<?php echo $each['bill_id'] ?>"><?php echo $each['status']; ?></td>
+						<td id="<?php echo $each['bill_id'] ?>">
+							<?php echo ($each['status']=='0')? 'đang đợi'
+							 : (($each['status']=='1') ? 'đã duyệt'
+							 							 : (($each['status']=='3') ? 'đã hủy' : '' ))?>
+								
+							</td>
 						<td style="width:7%">
 							<a target="_blank"  href="./view_bill.php?id=<?php echo $each['bill_id'] ?>">
 							<button >Chi tiết</button>
 						</a>
 						</td>
-						<?php if($each['status']=='đang đợi') { ?>
+						<?php if($each['status']=='0') { ?>
 							<td>
 								<button  data-id="<?php echo $each['bill_id'] ?>" data-type="Duyệt" ><?php echo 'Duyệt'; ?></button>
 
@@ -119,7 +122,7 @@
 								<button  data-id="<?php echo $each['bill_id'] ?>" data-type="Hủy" ><?php echo 'Hủy'; ?></button>
 
 							</td>
-						<?php } else if($each['status']=='đã duyệt'){ ?>	
+						<?php } else if($each['status']=='1'){ ?>	
 
 							<td>
 								<button  data-id="<?php echo $each['bill_id'] ?>" data-type="Hủy" ><?php echo 'Hủy'; ?></button>

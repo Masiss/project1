@@ -14,7 +14,7 @@
 		}
 		div{
 			background-color: whitesmoke;
-			width: 30%;
+			width: 35%;
 			
 			position: relative;
 			padding: 5em;
@@ -44,6 +44,10 @@
 			border-bottom: 1px solid rgba(0,0,0,0.4);
 			text-align: center;
 			width: 100%;
+		}
+		input[name='price'],input[name='product_size']{
+			width: 100%;
+
 		}
 		button{
 			font-size: 20px;
@@ -93,47 +97,57 @@
 						<input type="hidden" name="old_image" value="<?php echo $each['product_image'] ?>">
 						<input type="file" style="border:0;" name="new_image">
 					</p>
-					<p>
-						Giá
-						<br>
-						<input id="price" type="text" name="price" value="<?php echo $each['price'] ?>">
-						<span id="price_error"></span>
-					</p>
-					<p>
-						Kích thước:
-						<br>
-						<input id="size" type="text" name="product_size" value="<?php echo $each['product_size'] ?>">
-						<span id="size_error"></span>
-					</p>
+					<div id="row_add" style="padding:0;display:flex;flex-direction:row;justify-content:space-around;width:100%">
+						<div style="padding: 10px;width:100%;">
 
-					<p>
+							Giá
+							<br>
+							<input id="price" type="number" name="price[]" value="<?php echo $each['price'] ?>">
+							<span id="price_error"></span>
+							
+						</div>
+						<div style="padding: 10px;width:100%">
+
+							Kích thước:
+							<br>
+							<input id="size" type="text" name="product_size[]" value="<?php echo $each['product_size'] ?>">
+							<span id="size_error"></span>
+							
+						</div>
+						<button type="button" onclick="add()">thêm </button>
+
+					</div>
+					<p id="des">
 						Mô tả sản phẩm
 						<br>
 						<textarea id="description" style="width:80%;" name="description"><?php echo $each['description'] ?></textarea>
 						<span id="des_error"></span>
 					</p>
-					<div style="display:flex;flex-direction: row;width:100%;padding:0;justify-content:space-between;">
-						
-							<p style="display:flex;flex-direction:column;">
-								Loại sản phẩm:
-								<br>
-								<select name='type_id[]' style="width: 100%; height:100px;" multiple>
-									<?php 
-									$all_type=mysqli_query($connect,"select * from type");
+					<div  style="display:flex;flex-direction: row;width:100%;padding:0;justify-content:space-between;">
+
+						<p style="display:flex;flex-direction:column;">
+							Loại sản phẩm:
+							<br>
+							<select name='type_id[]' style="width: 100%; height:100px;" multiple>
+								<?php 
+								$all_type=mysqli_query($connect,"select * from type");
+								$each['type_id']=explode(',',$each['type_id']);
+								foreach ($each['type_id'] as $key) {
 									foreach($all_type as $type){
+										
 										?>
 										<option style="font-size: 15px" value="<?php echo $type['type_id'] ?>" 
-											<?php if($each['type_id']===$type['type_id']) echo 'selected="selected"';?>>
+											<?php if($key===$type['type_id']) echo 'selected="selected"';?>>
 											<?php echo $type['type_name']; ?></option>
-										<?php } ?>
+										<?php } } ?>
 									</select>
 									<span style="font-size: 13px;">
 										*Nếu không có, nhấn vào <a href="add_type.php?id=<?php echo $id ?>">thêm</a> 
 									</span>
 								</p>
-							
-							
-						
+
+
+
 								<p style="display:flex;flex-direction:column;align-content: center;align-items: center;">
 									Nhà sản xuất
 									<br>
@@ -149,26 +163,39 @@
 											</option>
 										<?php } ?>
 									</select>
-								<?php } ?>
+									<?php 
+
+								} 
+								?>
 								<span style="margin: 0;border:0;font-size: 13px;">
 									*Nếu không có, nhấn vào <a href="add_manu.php?id=<?php echo $id ?>">thêm</a> 
 								</span>
 							</p>
+
+						</div>
+						<a href="" style="display: flex;justify-content:center;text-decoration: none;">
+							<button type="submit" onclick="return check_product_update()" >
+								Thay đổi
+							</button>
+						</a>
+
+					</form>
+
+				</main>
+
+				
+				<script type="text/javascript" src="../../extra/check.js"></script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+				<script type="text/javascript">
+					function add() {
+						// let row=document.getElementById('row_add');
+
+						$("#row_add").clone().insertBefore('#row_add',null);
+						
+						
+					};
 					
-					</div>
-					<a href="" style="display: flex;justify-content:center;text-decoration: none;">
-						<button type="submit" onclick="return check_product_update()" >
-							Thay đổi
-						</button>
-					</a>
-
-				</form>
-
-			</main>
-
-			
-			<script type="text/javascript" src="../../extra/check.js"></script>
-
-		</div>
-	</body>
-	</html>
+				</script>
+			</div>
+		</body>
+		</html>
