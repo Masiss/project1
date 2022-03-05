@@ -133,7 +133,7 @@
 	<main>
 		<div  class="blog-list" > 
 			<div class="blog-list-inner">
-				<?php include '../extra/connect.php';
+				<?php 
 				$get_type=mysqli_query($connect,"select type_id from type where	type_name='phụ kiện'")->fetch_array()['type_id'];
 			
 				$result=mysqli_query($connect,"select * from product where type_id='$get_type'");

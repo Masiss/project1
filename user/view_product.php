@@ -19,6 +19,7 @@
 	main{
 		margin: 100px;
 		margin-top: 0;
+		height: 100%;
 	}
 	img{
 		max-width: 100%;
@@ -102,7 +103,7 @@
 		}
 		
 		?>
-		<div style="display: inline-block; width:60%;height: fit-content;margin-left: 150px;">
+		<div style="display:flex; width:60%;height: 100%;margin-left: 150px;flex-direction: column;justify-content:flex-start;">
 			<input id="id_product" type="hidden" name="" value="<?php echo $get_info['product_id'] ?>">
 			<span>
 				<?php echo $get_info['product_name']; ?>

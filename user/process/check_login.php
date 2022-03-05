@@ -9,3 +9,4 @@ if(!empty($_COOKIE['token'])){
 		$_SESSION['name']=$user_info['user_name'];
 	}
 }
+

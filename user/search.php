@@ -129,8 +129,9 @@
 		<b></b>
 
 	</div>
-<?php if(empty($_GET['type']) || empty($_GET['search'])){
+<?php if(empty($_GET['type']) && empty($_GET['search'])){
 	header("Location './index.php'");
+	exit();
 }  
 $search=$_GET['search'];
 $type=isset($_GET['type'])?$_GET['type']:null;

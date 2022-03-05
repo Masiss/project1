@@ -126,104 +126,114 @@
 	</div>
 	<?php 
 	$id=$_SESSION['id'];
-	$get_info=mysqli_query($connect,"select * from user where user_id='$id'")->fetch_array();
-	?>
-	<main>
-		<div>
-			<span style="color:red;font-weight:800;font-size: 20px;" id="announce"></span>
-			<form class="register">
-				<input id="user_id" type="hidden" name="" value="<?php echo $id; ?>">
-				<p>Họ và tên:</p>
-				<input id="user_name" type="text" name="user_name" value="<?php echo $get_info['user_name'] ?>">
-				
-				<p>Số điện thoại:</p>
-				<input id="user_phone" type="number" name="user_phone" value="<?php echo '0'.$get_info['user_phone'] ?>">
-				<p>Địa chỉ:</p>
-				<input id="user_address" type="text" name="user_address" value="<?php echo $get_info['user_address'] ?>">
-				<p>Email:</p>
-				<input id="user_email" type="email" name="user_email" value="<?php echo $get_info['user_email'] ?>">
-				<p>Ghi chú:</p>
-				<input id="notes" type="text" name="notes" >
-				
+	if(isset($_SESSION['level'])){ ?>
+		<div style="padding:100px;justify-content:center;display:flex;">
+			<p style="font-size:20px; text-transform:none;text-align:center;color:black; margin:100px">
+				Nếu là bạn là nhân viên, hãy tạo tài khoản khách hàng.
 				<br>
-				<button type="submit" onclick="return check()" >
-					<a id="payment" >
-						Thanh toán
-					</a>
-				</button>
-				<button type="reset" onclick="location.href='./cart.php'" >Quay lại</button>
-
-			</form>
+				Nếu bạn là khách hàng và đang đọc những dòng này, hãy liên hệ cho shop theo các phương thức ở cuối trang để báo lỗi.
+			</p>
 		</div>
-		<div id="bill_info">
-			<table>
-				<tr>
-					<td>
-						Tên sản phẩm
-					</td>
-					<td>
-						Kích thước
-					</td>
-					<td>
-						Giá
-					</td>
-					<td>
-						Số lượng
-					</td>
-					<td>
-						Tạm tính
-					</td>
-					
-					
-				</tr>
-				<?php 
-				$product=$_SESSION['cart'];
-				$sum=0;
-				foreach ($product as $each=>$value) {
-					$id=$each;
-					$info=mysqli_query($connect,"select * from product where product_id='$id'")->fetch_array();
-					?>	
+	<?php	} else{
+		$get_info=mysqli_query($connect,"select * from user where user_id='$id'")->fetch_array();
+		?>
+		<main>
+			<div>
+				<span style="color:red;font-weight:800;font-size: 20px;" id="announce"></span>
+				<form class="register">
+					<input id="user_id" type="hidden" name="" value="<?php echo $id; ?>">
+					<p>Họ và tên:</p>
+					<input id="user_name" type="text" name="user_name" value="<?php echo $get_info['user_name'] ?>">
+
+					<p>Số điện thoại:</p>
+					<input id="user_phone" type="number" name="user_phone" value="<?php echo '0'.$get_info['user_phone'] ?>">
+					<p>Địa chỉ:</p>
+					<input id="user_address" type="text" name="user_address" value="<?php echo $get_info['user_address'] ?>">
+					<p>Email:</p>
+					<input id="user_email" type="email" name="user_email" value="<?php echo $get_info['user_email'] ?>">
+					<p>Ghi chú:</p>
+					<input id="notes" type="text" name="notes" >
+
+					<br>
+					<button type="submit" onclick="return check()" >
+						<a id="payment" >
+							Thanh toán
+						</a>
+					</button>
+					<button type="reset" onclick="location.href='./cart.php'" >Quay lại</button>
+
+				</form>
+			</div>
+			<div id="bill_info">
+				<table>
 					<tr>
-						
-						<td class="product_name">
-							
-							<img src="../admin/pic_product/<?php echo $info['product_image'] ?>">
-							<?php echo $info['product_name'] ?>
+						<td>
+							Tên sản phẩm
 						</td>
-						<td >
-							
-							<?php 
-							echo $value['size'];
-							?>
+						<td>
+							Kích thước
 						</td>
-						
-						<td id="price">
-							<?php echo number_format($info['price'],0,".",",") ?>
-
+						<td>
+							Giá
 						</td>
-						
-
-						<td class="quantity" id="quantity"><?php echo $value['quantity'] ?> </td>
-
-						<td class="total" name="total">
-							<?php
-							$sum+=($value['quantity']*$info['price']);
-							$_SESSION['total']=$sum;
-							echo number_format($value['quantity']*$info['price'],0,",",".");
-							?>
-
+						<td>
+							Số lượng
 						</td>
+						<td>
+							Tạm tính
+						</td>
+
 
 					</tr>
-				<?php } ?>
-				<tr>
-					<td>Tổng tiền</td>
-					<td><?php echo number_format($sum,0,",","."); ?></td>
-					
-				</tr>
-			</table>
-		</div>
-	</main>
+					<?php 
+					$product=$_SESSION['cart'];
+					$sum=0;
+					foreach ($product as $each=>$value) {
+						$id=$each;
+						$info=mysqli_query($connect,"select * from product where product_id='$id'")->fetch_array();
+						?>	
+						<tr>
+
+							<td class="product_name">
+
+								<img src="../admin/pic_product/<?php echo $info['product_image'] ?>">
+								<?php echo $info['product_name'] ?>
+							</td>
+							<td >
+
+								<?php 
+								echo $value['size'];
+								?>
+							</td>
+
+							<td id="price">
+								<?php echo number_format($info['price'],0,".",",") ?>
+
+							</td>
+
+
+							<td class="quantity" id="quantity"><?php echo $value['quantity'] ?> </td>
+
+							<td class="total" name="total">
+								<?php
+								$sum+=($value['quantity']*$info['price']);
+								$_SESSION['total']=$sum;
+								echo number_format($value['quantity']*$info['price'],0,",",".");
+								?>
+
+							</td>
+
+						</tr>
+					<?php } ?>
+					<tr>
+						<td>Tổng tiền</td>
+						<td><?php echo number_format($sum,0,",","."); ?></td>
+
+					</tr>
+				</table>
+			</div>
+		</main>
+	<?php } ?>
 	<div id="popup">
 		<h2 id="popup-content">Xin cảm ơn quý khách!</h2>
 		<p id="popup-content">Cảm ơn bạn đã mua hàng ở website của chúng tôi. Nếu bạn có vấn đề gì về sản phẩm hay cần tư vấn lựa chọn sản phẩm, hãy nhắn tin cho chúng tôi qua thông tin liên lạc được đặt ở cuối website. Chúng tôi luôn sẵn sàng hỗ trợ bạn!</p>

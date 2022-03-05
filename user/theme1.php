@@ -8,7 +8,7 @@
 
 			<div class="header_top">
 				<p class="logo">
-					<a style="text-decoration:none; color:black;" href="./index.php">Masiss</a>
+					<a style="text-decoration:none; color:black;" href="/project1/user/index.php">Masiss</a>
 				</p>
 				<div  class="search_bar">
 					<form method="GET" action="./search.php?tim_kiem=">
@@ -24,16 +24,16 @@
 					</div>
 				<?php } else { ?>
 					<p style="position: absolute;margin:0;font-size:19px;
-					text-transform: none; right: 10%;top:5%;color:black"> Chào bạn <?php echo $_SESSION['name']; ?>,</p>
+					text-transform: none; right: 10%;top:5%;color:black"> Chào bạn <a href="/project1/user/details/user_info.php"><?php echo $_SESSION['name']; ?>,</a> </p>
 					<div class="top_right">
-						<a href="./process/signout.php">Đăng xuất</a>
+						<a href="/project1/user/process/signout.php">Đăng xuất</a>
 					</div>
 				<?php } ?>
 				
 
 				<div class="top_right">
 
-					<a href="./cart.php">
+					<a href="/project1/user/cart.php">
 						<ion-icon name="cart-outline"></ion-icon>
 						Giỏ hàng
 					</a>
@@ -42,32 +42,32 @@
 			<div class="navbar">
 				<ul>
 					<li>
-						<a href="./index.php">
+						<a href="/project1/user/index.php">
 							Trang chủ
 						</a>
 					</li>	
 					<li>
-						<a href="./wax.php">
+						<a href="/project1/user/wax.php">
 							Sáp
 						</a>
 					</li>	
 					<li>
-						<a href="./pomade.php">
+						<a href="/project1/user/pomade.php">
 							Pomade
 						</a>
 					</li>	
 					<li>
-						<a href="./prestyler.php">
+						<a href="/project1/user/prestyler.php">
 							Sản phẩm hỗ trợ
 						</a>
 					</li>	
 					<li>
-						<a href="./accessories.php">
+						<a href="/project1/user/accessories.php">
 							Dụng cụ hỗ trợ
 						</a>
 					</li>
 					<li>
-						<a href="./about.php">
+						<a href="/project1/user/about.php">
 							Giới thiệu
 						</a>
 					</li>	

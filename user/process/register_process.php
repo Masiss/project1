@@ -18,7 +18,13 @@ $email=addslashes($_POST['email']);
 $password=addslashes($_POST['password']);
 $date=$_POST['date'];
 include '../../extra/connect.php';
+$check=mysqli_query($connect, "select user_email from user where user_email='$email'")->num_rows;
+if($check>0){
+	$error="Email đã được đăng ký";
+	header("Location: ../register.php?error=$error");
+	exit();
+}
 mysqli_query($connect,"insert into user(user_name,gender,user_address,user_phone,user_email,user_password,user_birthday) values('$name','$gender','$address','$phone','$email','$password','$date')");
 
-header("Location: ../index.php");
+header("Location: ../login.php");
 exit();

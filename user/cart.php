@@ -165,7 +165,7 @@
 				
 			<?php } ?>
 		</div>
-		<?php if(!empty($_SESSION['cart'])){ ?>
+		<?php if(!empty($_SESSION['cart']) && !empty($_SESSION['id'])){ ?>
 		<div style="display:block; ">
 			<p style="width:fit-content;">Tổng đơn: 
 				<span id="all_total">

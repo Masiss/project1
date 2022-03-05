@@ -84,7 +84,7 @@
 	
 	<div class="feature">
 		<b></b>
-		<p>ĐĂNG KÝ</p>
+		<p>ĐĂNG NHẬP</p>
 		<b></b>
 
 	</div>

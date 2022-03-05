@@ -104,7 +104,7 @@
 		right: 0;
 		bottom: 0;
 		left: 0;
-		padding: 60px;
+		padding: 30px;
 
 		display: flex;
 		justify-content: center;
@@ -134,7 +134,8 @@
 		<div  class="blog-list" > 
 			<div class="blog-list-inner">
 				<?php include '../extra/connect.php';
-				$result=mysqli_query($connect,"select * from product limit 12");
+				$result=mysqli_query($connect,"SELECT * FROM product n WHERE product_id=(SELECT max(product_id) from product n2 WHERE n.product_name=n2.product_name and n.description=n2.description)");
+
 				foreach ($result as $each) {
 					?>
 					<article class="blog-list-items">
